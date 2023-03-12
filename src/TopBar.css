@@ -2,3 +2,8 @@
   text-decoration: none;
   color: white;
 }
+
+.MuiToolbar-root a.active {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
