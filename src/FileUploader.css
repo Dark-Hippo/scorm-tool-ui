@@ -1,0 +1,11 @@
+.file-upload {
+  border: solid 1px #000;
+  border-radius: 4px;
+  background-color: rgba(0, 0, 255, 0.1);
+  height: 200px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+}

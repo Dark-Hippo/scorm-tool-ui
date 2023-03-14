@@ -1,6 +1,8 @@
 import { Button, Link } from '@mui/material';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { useDropzone } from 'react-dropzone';
+import './FileUploader.css';
 
 const server = 'http://localhost:3000';
 
@@ -19,6 +21,38 @@ const SendToServer = async (file: File) => {
 
 export const FileUploader = () => {
   const [address, setAddress] = useState('');
+  const onDrop = useCallback((acceptedFiles: File[]) => {
+    console.log(acceptedFiles);
+  }, []);
+  const {
+    acceptedFiles,
+    fileRejections,
+    getRootProps,
+    getInputProps,
+    isDragActive,
+  } = useDropzone({
+    onDrop,
+    accept: { 'application/zip': [], 'application/x-zip-compressed': [] },
+  });
+
+  const acceptedFileItems = acceptedFiles.map((file: any) => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
+
+  const fileRejectionItems = fileRejections.map(
+    ({ file, errors }: { file: any; errors: any }) => (
+      <li key={file.path}>
+        {file.path} - {file.size} bytes ({file.type})
+        <ul>
+          {errors.map((e: any) => (
+            <li key={e.code}>{e.message}</li>
+          ))}
+        </ul>
+      </li>
+    )
+  );
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const JSZip = require('jszip');
@@ -44,22 +78,31 @@ export const FileUploader = () => {
   };
 
   return (
-    <div className="upload-container">
-      <div>
-        <Button
-          startIcon={<UploadFileIcon />}
-          variant="contained"
-          component="label"
-        >
-          Upload
-          <input hidden accept=".zip" type="file" onChange={handleFileUpload} />
-        </Button>
+    <section className="upload-container">
+      <div className="file-upload" {...getRootProps()}>
+        <input {...getInputProps()} />
+        {isDragActive ? (
+          <p>Drop the files here ...</p>
+        ) : (
+          <div>
+            <p>
+              <UploadFileIcon />
+            </p>
+            <p>Drag 'n' drop some files here, or click to select files</p>
+          </div>
+        )}
       </div>
+      <aside>
+        <h4>Accepted files</h4>
+        <ul>{acceptedFileItems}</ul>
+        <h4>Rejected files</h4>
+        <ul>{fileRejectionItems}</ul>
+      </aside>
       <div>
         <Link href={address} target="_blank" hidden={!address}>
           View site
         </Link>
       </div>
-    </div>
+    </section>
   );
 };
