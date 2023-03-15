@@ -1,6 +1,6 @@
 import { Box, Button, Link } from '@mui/material';
 import { UploadFile, DoneSharp, CancelOutlined } from '@mui/icons-material';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useReducer } from 'react';
 import { FileRejection, FileWithPath, useDropzone } from 'react-dropzone';
 import './FileUploader.css';
 import { file } from 'jszip';
@@ -22,31 +22,47 @@ const SendToServer = async (file: File) => {
 
 export const FileUploader = () => {
   const [address, setAddress] = useState('');
-  const [files, setFiles] = useState<JSX.Element[]>([]);
+  const [files, dispatch] = useReducer(
+    (
+      files: JSX.Element[],
+      { type, value: file }: { type: string; value: FileWithPath }
+    ): JSX.Element[] => {
+      let element: JSX.Element;
+      switch (type) {
+        case 'valid':
+          element = (
+            <li key={file.path}>
+              <p>
+                <DoneSharp className="success" /> {file.name}
+              </p>
+            </li>
+          );
+          return [...files, element];
+        case 'invalid':
+          element = (
+            <li key={file.path}>
+              <p>
+                <CancelOutlined className="fail" /> {file.name}
+              </p>
+            </li>
+          );
+          return [...files, element];
+        default:
+          return files;
+      }
+    },
+    []
+  );
 
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[], fileRejections: FileRejection[]) => {
-      const acceptedItems = acceptedFiles.map((file: FileWithPath) => (
-        <li key={file.path}>
-          <p>
-            <DoneSharp className="success" /> {file.name}
-          </p>
-        </li>
-      ));
-
-      const rejectedItems = fileRejections.map((rejection: FileRejection) => {
-        const file: FileWithPath = rejection.file;
-        return (
-          <li key={file.path}>
-            <p>
-              <CancelOutlined className="fail" /> {file.name}
-            </p>
-          </li>
-        );
+      acceptedFiles.forEach((file) => {
+        dispatch({ type: 'valid', value: file });
       });
 
-      const fileItems = [...acceptedItems, ...rejectedItems];
-      setFiles(fileItems);
+      fileRejections.forEach((rejection) => {
+        dispatch({ type: 'invalid', value: rejection.file });
+      });
     },
     []
   );
