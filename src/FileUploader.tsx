@@ -1,5 +1,5 @@
-import { Box, Button, Link } from '@mui/material';
-import { UploadFile, DoneSharp, CancelOutlined } from '@mui/icons-material';
+import { Box, Link } from '@mui/material';
+import { UploadFile } from '@mui/icons-material';
 import { useState, useCallback, useReducer } from 'react';
 import { FileRejection, FileWithPath, useDropzone } from 'react-dropzone';
 import './FileUploader.css';
