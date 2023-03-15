@@ -3,7 +3,11 @@ import { UploadFile, DoneSharp, CancelOutlined } from '@mui/icons-material';
 import { useState, useCallback, useReducer } from 'react';
 import { FileRejection, FileWithPath, useDropzone } from 'react-dropzone';
 import './FileUploader.css';
-import { file } from 'jszip';
+import {
+  FileUploadStatus,
+  FileUploadStatusIndicator,
+  FileWithStatus,
+} from './FileUploadStatusIndicator';
 
 const server = 'http://localhost:3000';
 
@@ -25,24 +29,15 @@ export const FileUploader = () => {
   const [files, dispatch] = useReducer(
     (
       files: JSX.Element[],
-      { type, value: file }: { type: string; value: FileWithPath }
+      { type, value }: { type: string; value: FileWithStatus }
     ): JSX.Element[] => {
-      let element: JSX.Element;
       switch (type) {
-        case 'valid':
-          element = (
-            <li key={file.path}>
+        case 'add':
+          const element: JSX.Element = (
+            <li key={value.file.path}>
               <p>
-                <DoneSharp className="success" /> {file.name}
-              </p>
-            </li>
-          );
-          return [...files, element];
-        case 'invalid':
-          element = (
-            <li key={file.path}>
-              <p>
-                <CancelOutlined className="fail" /> {file.name}
+                <FileUploadStatusIndicator fileStatus={value.status} />{' '}
+                {value.file.name}
               </p>
             </li>
           );
@@ -57,23 +52,34 @@ export const FileUploader = () => {
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[], fileRejections: FileRejection[]) => {
       acceptedFiles.forEach((file) => {
-        dispatch({ type: 'valid', value: file });
+        const fileWithStatus: FileWithStatus = {
+          file: file,
+          status: FileUploadStatus.InProgress,
+        };
+
+        dispatch({
+          type: 'add',
+          value: fileWithStatus,
+        });
       });
 
       fileRejections.forEach((rejection) => {
-        dispatch({ type: 'invalid', value: rejection.file });
+        const fileWithStatus: FileWithStatus = {
+          file: rejection.file,
+          status: FileUploadStatus.Error,
+          message: rejection.errors,
+        };
+
+        dispatch({
+          type: 'add',
+          value: fileWithStatus,
+        });
       });
     },
     []
   );
 
-  const {
-    acceptedFiles,
-    fileRejections,
-    getRootProps,
-    getInputProps,
-    isDragActive,
-  } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: { 'application/zip': [], 'application/x-zip-compressed': [] },
   });
