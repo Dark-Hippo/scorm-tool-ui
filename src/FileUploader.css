@@ -1,11 +1,33 @@
-.file-upload {
-  border: solid 1px #000;
-  border-radius: 4px;
-  background-color: rgba(0, 0, 255, 0.1);
+.upload-container .file-upload {
+  border: dashed 2px #eee;
+  border-radius: 2px;
+  background-color: #fafafa;
   height: 200px;
-  width: 200px;
+  margin-top: 10px;
   display: flex;
   align-items: center;
   text-align: center;
+  justify-content: center;
   font-family: 'Courier New', Courier, monospace;
+  color: #dbdbdb;
+}
+
+.upload-container .uploaded-files {
+  list-style-type: none;
+  padding-inline-start: 20px;
+}
+
+.upload-container .uploaded-files p {
+  display: flex;
+  align-items: center;
+}
+
+.upload-container .uploaded-files .success {
+  color: #008000;
+  margin-right: 10px;
+}
+
+.upload-container .uploaded-files .fail {
+  color: #ff0000;
+  margin-right: 10px;
 }

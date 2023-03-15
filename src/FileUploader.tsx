@@ -1,8 +1,9 @@
-import { Button, Link } from '@mui/material';
-import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { Box, Button, Link } from '@mui/material';
+import { UploadFile, DoneSharp, CancelOutlined } from '@mui/icons-material';
 import { useState, useCallback } from 'react';
-import { useDropzone } from 'react-dropzone';
+import { FileRejection, FileWithPath, useDropzone } from 'react-dropzone';
 import './FileUploader.css';
+import { file } from 'jszip';
 
 const server = 'http://localhost:3000';
 
@@ -21,9 +22,35 @@ const SendToServer = async (file: File) => {
 
 export const FileUploader = () => {
   const [address, setAddress] = useState('');
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    console.log(acceptedFiles);
-  }, []);
+  const [files, setFiles] = useState<JSX.Element[]>([]);
+
+  const onDrop = useCallback(
+    (acceptedFiles: FileWithPath[], fileRejections: FileRejection[]) => {
+      const acceptedItems = acceptedFiles.map((file: FileWithPath) => (
+        <li key={file.path}>
+          <p>
+            <DoneSharp className="success" /> {file.name}
+          </p>
+        </li>
+      ));
+
+      const rejectedItems = fileRejections.map((rejection: FileRejection) => {
+        const file: FileWithPath = rejection.file;
+        return (
+          <li key={file.path}>
+            <p>
+              <CancelOutlined className="fail" /> {file.name}
+            </p>
+          </li>
+        );
+      });
+
+      const fileItems = [...acceptedItems, ...rejectedItems];
+      setFiles(fileItems);
+    },
+    []
+  );
+
   const {
     acceptedFiles,
     fileRejections,
@@ -34,25 +61,6 @@ export const FileUploader = () => {
     onDrop,
     accept: { 'application/zip': [], 'application/x-zip-compressed': [] },
   });
-
-  const acceptedFileItems = acceptedFiles.map((file: any) => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
-
-  const fileRejectionItems = fileRejections.map(
-    ({ file, errors }: { file: any; errors: any }) => (
-      <li key={file.path}>
-        {file.path} - {file.size} bytes ({file.type})
-        <ul>
-          {errors.map((e: any) => (
-            <li key={e.code}>{e.message}</li>
-          ))}
-        </ul>
-      </li>
-    )
-  );
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const JSZip = require('jszip');
@@ -78,31 +86,31 @@ export const FileUploader = () => {
   };
 
   return (
-    <section className="upload-container">
-      <div className="file-upload" {...getRootProps()}>
-        <input {...getInputProps()} />
-        {isDragActive ? (
-          <p>Drop the files here ...</p>
-        ) : (
-          <div>
-            <p>
-              <UploadFileIcon />
-            </p>
-            <p>Drag 'n' drop some files here, or click to select files</p>
-          </div>
-        )}
-      </div>
-      <aside>
-        <h4>Accepted files</h4>
-        <ul>{acceptedFileItems}</ul>
-        <h4>Rejected files</h4>
-        <ul>{fileRejectionItems}</ul>
-      </aside>
-      <div>
-        <Link href={address} target="_blank" hidden={!address}>
-          View site
-        </Link>
-      </div>
-    </section>
+    <Box sx={{ flexGrow: 1 }}>
+      <section className="upload-container">
+        <div className="file-upload" {...getRootProps()}>
+          <input {...getInputProps()} />
+          {isDragActive ? (
+            <p>Drop the files here ...</p>
+          ) : (
+            <div>
+              <p>
+                <UploadFile />
+              </p>
+              <p>Drag 'n' drop some files here, or click to select files</p>
+            </div>
+          )}
+        </div>
+        <aside>
+          <h4>Uploaded:</h4>
+          <ul className="uploaded-files">{files}</ul>
+        </aside>
+        <div>
+          <Link href={address} target="_blank" hidden={!address}>
+            View site
+          </Link>
+        </div>
+      </section>
+    </Box>
   );
 };
