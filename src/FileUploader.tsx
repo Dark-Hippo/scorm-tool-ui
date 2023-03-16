@@ -1,4 +1,4 @@
-import { Box, Link } from '@mui/material';
+import { Box, Button, Link } from '@mui/material';
 import { UploadFile } from '@mui/icons-material';
 import { useState, useCallback, useReducer } from 'react';
 import { FileRejection, FileWithPath, useDropzone } from 'react-dropzone';
@@ -8,13 +8,12 @@ import {
   FileUploadStatusIndicator,
   FileWithStatus,
 } from './FileUploadStatusIndicator';
-
-const server = 'http://localhost:3000';
+import { SERVER } from './config';
 
 const SendToServer = async (file: File) => {
   const formData = new FormData();
   formData.append('scorm', file);
-  const response = await fetch(`${server}/scorm`, {
+  const response = await fetch(`${SERVER}/scorm`, {
     method: 'POST',
     body: formData,
     mode: 'cors',
@@ -35,10 +34,7 @@ export const FileUploader = () => {
         case 'add':
           const element: JSX.Element = (
             <li key={value.file.path}>
-              <p>
-                <FileUploadStatusIndicator fileStatus={value.status} />{' '}
-                {value.file.name}
-              </p>
+              <FileUploadStatusIndicator file={value} />
             </li>
           );
           return [...files, element];
@@ -66,7 +62,7 @@ export const FileUploader = () => {
       fileRejections.forEach((rejection) => {
         const fileWithStatus: FileWithStatus = {
           file: rejection.file,
-          status: FileUploadStatus.Error,
+          status: FileUploadStatus.Invalid,
           message: rejection.errors,
         };
 
@@ -103,7 +99,7 @@ export const FileUploader = () => {
 
     const result = await SendToServer(file);
     if (result.location) {
-      setAddress(`${server}${result.location}`);
+      setAddress(`${SERVER}${result.location}`);
     }
   };
 
