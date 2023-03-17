@@ -1,7 +1,7 @@
 import { SERVER } from '../config';
 
 export const ValidateScormFile = async (file: File) => {
-  return Mock;
+  return Mock();
   const formData = new FormData();
   formData.append('scorm', file);
   const response = await fetch(`${SERVER}/scorm/validate`, {
@@ -16,9 +16,11 @@ export const ValidateScormFile = async (file: File) => {
   return result.isValid;
 };
 
-const Mock = () => {
+export const Mock = () => {
   return new Promise((resolve) => {
+    console.log('about to resolve');
     setTimeout(() => {
+      console.log('resolving');
       resolve(true);
     }, 2000);
   });

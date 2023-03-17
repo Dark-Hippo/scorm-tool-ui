@@ -16,6 +16,19 @@ export interface FileWithStatus {
   message?: FileError[];
 }
 
+const setStatusElement = (status: FileUploadStatus) => {
+  console.log(`setting element to ${status}`);
+  switch (status) {
+    case FileUploadStatus.Complete:
+      return <DoneSharp className="complete" />;
+    case FileUploadStatus.Error:
+    case FileUploadStatus.Invalid:
+      return <CancelOutlined className="error" />;
+    case FileUploadStatus.InProgress:
+      return <CachedSharp className="in-progress" />;
+  }
+};
+
 export const FileUploadStatusIndicator = ({
   file,
 }: {
@@ -30,46 +43,26 @@ export const FileUploadStatusIndicator = ({
   }
 
   const [status, setStatus] = useState(file.status);
-  let element: JSX.Element;
-  // setStatus(FileUploadStatus.InProgress);
+  const [element, setElement] = useState<JSX.Element>(() =>
+    setStatusElement(status)
+  );
 
-  // useEffect(() => {
-  //   console.log('validating...');
-  //   ValidateScormFile(file.file).then((isValid) => {
-  //     if (isValid) {
-  //       console.log('valid');
-  //       // setStatus(FileUploadStatus.Complete);
-  //     } else {
-  //       console.log('invalid');
-  //       // setStatus(FileUploadStatus.Error);
-  //     }
-  //   });
-  // }, [file.status]);
-
-  // switch (status) {
-  //   case FileUploadStatus.Complete:
-  //     element = (
-  //       <p>
-  //         <DoneSharp className="complete" /> {file.file.name}
-  //       </p>
-  //     );
-  //   case FileUploadStatus.Error:
-  //     element = (
-  //       <p>
-  //         <CancelOutlined className="error" /> {file.file.name}
-  //       </p>
-  //     );
-  //   case FileUploadStatus.InProgress:
-  //     element = (
-  //       <p>
-  //         <CachedSharp className="in-progress" /> {file.file.name}
-  //       </p>
-  //     );
-  // }
+  useEffect(() => {
+    console.log('validating...');
+    ValidateScormFile(file.file).then((isValid) => {
+      if (isValid) {
+        setStatus(FileUploadStatus.Complete);
+        setElement(<DoneSharp className="complete" />);
+      } else {
+        setStatus(FileUploadStatus.Error);
+        setElement(<CancelOutlined className="error" />);
+      }
+    });
+  }, []);
 
   return (
     <p>
-      <DoneSharp className={status} /> {file.file.name}
+      {element} {file.file.name} {status}
     </p>
   );
 };
