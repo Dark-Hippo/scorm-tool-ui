@@ -1,7 +1,6 @@
 import { SERVER } from '../config';
 
 export const ValidateScormFile = async (file: File) => {
-  return Mock();
   const formData = new FormData();
   formData.append('scorm', file);
   const response = await fetch(`${SERVER}/scorm/validate`, {
