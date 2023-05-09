@@ -8,11 +8,9 @@ export const ValidateScormFile = async (file: File) => {
     body: formData,
     mode: 'cors',
   });
-  const result = await response.json();
+  const result: ScormValidateResponse = await response.json();
 
-  console.log(`File is ${result.isValid ? 'valid' : 'not valid'}`);
-
-  return result.isValid;
+  return result;
 };
 
 export const Mock = () => {

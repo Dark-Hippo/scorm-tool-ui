@@ -17,7 +17,6 @@ export interface FileWithStatus {
 }
 
 const setStatusElement = (status: FileUploadStatus) => {
-  console.log(`setting element to ${status}`);
   switch (status) {
     case FileUploadStatus.Complete:
       return <DoneSharp className="complete" />;
@@ -46,23 +45,32 @@ export const FileUploadStatusIndicator = ({
   const [element, setElement] = useState<JSX.Element>(() =>
     setStatusElement(status)
   );
+  const [title, setTitle] = useState('');
+  const [language, setLanguage] = useState('');
+  const [guid, setGuid] = useState('');
 
   useEffect(() => {
-    console.log('validating...');
-    ValidateScormFile(file.file).then((isValid) => {
-      if (isValid) {
-        setStatus(FileUploadStatus.Complete);
-        setElement(<DoneSharp className="complete" />);
-      } else {
-        setStatus(FileUploadStatus.Error);
-        setElement(<CancelOutlined className="error" />);
+    ValidateScormFile(file.file).then(
+      (scormValidateResponse: ScormValidateResponse) => {
+        setGuid(crypto.randomUUID());
+        setTitle(scormValidateResponse.title);
+        setLanguage(scormValidateResponse.language);
+        if (scormValidateResponse.isValid) {
+          setStatus(FileUploadStatus.Complete);
+          setElement(<DoneSharp className="complete" />);
+        } else {
+          setStatus(FileUploadStatus.Error);
+          setElement(<CancelOutlined className="error" />);
+        }
       }
-    });
+    );
   }, []);
 
   return (
-    <p>
-      {element} {file.file.name} {status}
-    </p>
+    <tr key={guid}>
+      <td>{element}</td> <td>{file.file.name}</td>
+      <td>{title}</td>
+      <td>{language}</td>
+    </tr>
   );
 };

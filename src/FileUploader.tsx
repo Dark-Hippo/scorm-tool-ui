@@ -19,6 +19,7 @@ const SendToServer = async (file: File) => {
     mode: 'cors',
   });
   const result = await response.json();
+  console.log('result', result);
 
   return result;
 };
@@ -33,9 +34,7 @@ export const FileUploader = () => {
       switch (type) {
         case 'add':
           const element: JSX.Element = (
-            <li key={value.file.path}>
-              <FileUploadStatusIndicator file={value} />
-            </li>
+            <FileUploadStatusIndicator file={value} key={crypto.randomUUID()} />
           );
           return [...files, element];
         default:
@@ -98,6 +97,7 @@ export const FileUploader = () => {
     }
 
     const result = await SendToServer(file);
+
     if (result.location) {
       setAddress(`${SERVER}${result.location}`);
     }
@@ -121,7 +121,17 @@ export const FileUploader = () => {
         </div>
         <aside>
           <h4>Uploaded:</h4>
-          <ul className="uploaded-files">{files}</ul>
+          <table>
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>File name</th>
+                <th>Course name</th>
+                <th>Language</th>
+              </tr>
+            </thead>
+            <tbody>{files}</tbody>
+          </table>
         </aside>
         <div>
           <Link href={address} target="_blank" hidden={!address}>

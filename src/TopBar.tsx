@@ -20,6 +20,9 @@ export default function TopBar() {
             <Button sx={{}}>
               <NavLink to="/upload">Upload</NavLink>
             </Button>
+            <Button>
+              <NavLink to="/courses">Courses</NavLink>
+            </Button>
           </Box>
         </Toolbar>
       </AppBar>
