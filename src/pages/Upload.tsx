@@ -2,11 +2,13 @@ import { Box } from '@mui/material';
 import { FileUploader } from '../FileUploader';
 import { CourseList } from '../components/CourseList';
 import { useCallback, useState } from 'react';
-
-import type { Course } from '../types/Course';
 import { FileUploadStatus, FileWithStatus } from '../types/FileWithStatus';
 import { InvalidFileList } from '../components/InvalidFileList';
 import { FileWithPath, FileRejection } from 'react-dropzone';
+import { ValidateScormFile } from '../services/ScormService';
+
+import type { Course } from '../types/Course';
+import type { ScormValidateResponse } from '../types/Responses';
 
 const courses: Course[] = [
   {
@@ -41,12 +43,24 @@ export const Upload = () => {
 
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[], fileRejections: FileRejection[]) => {
-      acceptedFiles.forEach((file) => {
+      acceptedFiles.forEach(async (file) => {
         const fileWithStatus: FileWithStatus = {
           file: file,
           status: FileUploadStatus.InProgress,
         };
 
+        const response: ScormValidateResponse = await ValidateScormFile(file);
+        if (response.isValid) {
+          const newCourse: Course = {
+            id: 5,
+            name: response.title,
+            language: response.language,
+            createdByUserId: 1,
+            createdDate: new Date().toString(),
+            updatedDate: new Date().toString(),
+          };
+          setCourseList([...courseList, newCourse]);
+        }
         // validate file
         // upload file, if valid, add to courseList, else add to invalidFileList
       });
