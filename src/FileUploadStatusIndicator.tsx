@@ -1,20 +1,10 @@
 import { CachedSharp, CancelOutlined, DoneSharp } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
-import { FileError, FileWithPath } from 'react-dropzone';
 import { ValidateScormFile } from './services/ScormService';
+import { FileUploadStatus } from './types/FileWithStatus';
 
-export enum FileUploadStatus {
-  Complete = 'complete',
-  Error = 'error',
-  InProgress = 'inProgress',
-  Invalid = 'invalid',
-}
-
-export interface FileWithStatus {
-  status: FileUploadStatus;
-  file: FileWithPath;
-  message?: FileError[];
-}
+import type { FileWithStatus } from './types/FileWithStatus';
+import type { ScormValidateResponse } from './types/Responses';
 
 const setStatusElement = (status: FileUploadStatus) => {
   switch (status) {

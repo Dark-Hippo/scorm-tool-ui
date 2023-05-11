@@ -1,5 +1,7 @@
 import { SERVER } from '../config';
 
+import type { ScormValidateResponse } from '../types/Responses';
+
 export const ValidateScormFile = async (file: File) => {
   const formData = new FormData();
   formData.append('scorm', file);
@@ -11,14 +13,4 @@ export const ValidateScormFile = async (file: File) => {
   const result: ScormValidateResponse = await response.json();
 
   return result;
-};
-
-export const Mock = () => {
-  return new Promise((resolve) => {
-    console.log('about to resolve');
-    setTimeout(() => {
-      console.log('resolving');
-      resolve(true);
-    }, 2000);
-  });
 };

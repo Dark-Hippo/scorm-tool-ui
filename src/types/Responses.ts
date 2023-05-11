@@ -7,3 +7,5 @@ interface ScormValidateResponse extends APIResponse {
   title: string;
   language: string;
 }
+
+export type { APIResponse, ScormValidateResponse };
