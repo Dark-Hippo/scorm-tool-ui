@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
-import { SERVER } from './config';
+import { SERVER } from '../config';
+
+import type { Course } from '../types/Course';
 
 export default function Courses() {
   const [loading, setLoading] = useState(false);

@@ -6,3 +6,5 @@ interface Course {
   createdDate: string;
   updatedDate: string;
 }
+
+export type { Course };

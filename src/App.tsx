@@ -1,9 +1,9 @@
 import './App.css';
-import { FileUploader } from './FileUploader';
-import TopBar from './TopBar';
-import Home from './Home';
+import TopBar from './components/TopBar';
+import Home from './pages/Home';
 import { Route, Routes } from 'react-router-dom';
-import Courses from './Courses';
+import Courses from './pages/Courses';
+import { Upload } from './pages/Upload';
 
 function App() {
   return (
@@ -14,7 +14,7 @@ function App() {
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/upload" element={<FileUploader />} />
+          <Route path="/upload" element={<Upload />} />
           <Route path="/courses" element={<Courses />} />
         </Routes>
       </main>
