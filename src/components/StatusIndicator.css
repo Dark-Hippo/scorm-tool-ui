@@ -1,0 +1,24 @@
+.complete {
+  color: #008000;
+  margin-right: 10px;
+}
+
+.error {
+  color: #ff0000;
+  margin-right: 10px;
+}
+
+.in-progress {
+  color: #333;
+  margin-right: 10px;
+  animation: rotation 2s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(359deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
