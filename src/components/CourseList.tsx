@@ -8,11 +8,11 @@ import {
   TableRow,
 } from '@mui/material';
 
-import type { Course } from '../types/Course';
+import type { CourseWithSite } from '../types/CourseWithSite';
 
 import './CourseList.css';
 
-export const CourseList = ({ data }: { data: Course[] }) => {
+export const CourseList = ({ data }: { data: CourseWithSite[] }) => {
   if (data.length === 0) {
     return null;
   }
@@ -25,23 +25,29 @@ export const CourseList = ({ data }: { data: Course[] }) => {
               <TableCell align="left">Status</TableCell>
               <TableCell align="left">Course name</TableCell>
               <TableCell align="left">Language</TableCell>
+              <TableCell align="left">Site address</TableCell>
               <TableCell align="left">Filename</TableCell>
-              <TableCell align="left">Uploaded date</TableCell>
+              <TableCell align="left">Last accessed</TableCell>
               <TableCell align="left">Edit</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((course: Course) => (
+            {data.map((courseWithSite: CourseWithSite) => (
               <TableRow
-                key={course.id}
+                key={courseWithSite.courseId}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell align="left">Tick</TableCell>
-                <TableCell align="left">{course.name}</TableCell>
-                <TableCell align="left">{course.language}</TableCell>
-                <TableCell align="left">filename</TableCell>
+                <TableCell align="left">{courseWithSite.name}</TableCell>
+                <TableCell align="left">{courseWithSite.language}</TableCell>
+                <TableCell align="left">Site goes here</TableCell>
+                <TableCell align="left">{courseWithSite.title}</TableCell>
                 <TableCell align="left">
-                  {new Date(course.createdDate).toLocaleDateString('en-GB')}
+                  {courseWithSite.lastAccessed
+                    ? new Date(courseWithSite.lastAccessed).toLocaleDateString(
+                        'en-GB'
+                      )
+                    : null}
                 </TableCell>
                 <TableCell align="left">
                   <Edit />

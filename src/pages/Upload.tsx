@@ -5,40 +5,39 @@ import { useCallback, useState } from 'react';
 import { FileUploadStatus, FileWithStatus } from '../types/FileWithStatus';
 import { InvalidFileList } from '../components/InvalidFileList';
 import { FileWithPath, FileRejection } from 'react-dropzone';
-import { ValidateScormFile } from '../services/ScormService';
 
-import type { Course } from '../types/Course';
-import type { ScormValidateResponse } from '../types/Responses';
+import type { CourseWithSite } from '../types/CourseWithSite';
+import { UploadScormFile } from '../services/ScormService';
 
-const courses: Course[] = [
+const courses: CourseWithSite[] = [
   {
-    id: 3,
+    courseId: 3,
+    siteId: 3,
+    guid: '',
     name: 'Test course',
     language: 'gb',
-    createdByUserId: 1,
-    createdDate: '2023-05-01T15:24:38.659Z',
-    updatedDate: '2023-05-01T15:24:38.659Z',
+    title: '',
   },
   {
-    id: 4,
-    name: 'Something funny',
+    courseId: 4,
+    siteId: 4,
+    guid: '',
+    name: 'Test course 2',
     language: 'gb',
-    createdByUserId: 1,
-    createdDate: '2023-05-01T15:29:56.520Z',
-    updatedDate: '2023-05-01T15:29:56.520Z',
+    title: 'something.zip',
   },
   {
-    id: 5,
-    name: 'Avoiding a scandal',
-    language: 'en',
-    createdByUserId: 1,
-    createdDate: '2023-05-01T15:49:35.774Z',
-    updatedDate: '2023-05-01T15:49:35.774Z',
+    courseId: 5,
+    siteId: 5,
+    guid: '',
+    name: 'Test course 3',
+    language: 'fr',
+    title: 'something-else.zip',
   },
 ];
 
 export const Upload = () => {
-  const [courseList, setCourseList] = useState<Course[]>(courses);
+  const [courseList, setCourseList] = useState<CourseWithSite[]>(courses);
   const [invalidFileList, setInvalidFileList] = useState<FileWithStatus[]>([]);
 
   const onDrop = useCallback(
@@ -49,20 +48,32 @@ export const Upload = () => {
           status: FileUploadStatus.InProgress,
         };
 
-        const response: ScormValidateResponse = await ValidateScormFile(file);
-        if (response.isValid) {
-          const newCourse: Course = {
-            id: 5,
-            name: response.title,
-            language: response.language,
-            createdByUserId: 1,
-            createdDate: new Date().toString(),
-            updatedDate: new Date().toString(),
+        const uploadResponse = await UploadScormFile(file);
+
+        if (!uploadResponse.isValid) {
+          const invalidFile: FileWithStatus = {
+            file: file,
+            status: FileUploadStatus.Invalid,
+            message: [
+              {
+                message: `${file.name} is not a valid Scorm file`,
+                code: 'invalid-scorm',
+              },
+            ],
           };
-          setCourseList([...courseList, newCourse]);
+          setInvalidFileList([...invalidFileList, invalidFile]);
+          return;
         }
-        // validate file
-        // upload file, if valid, add to courseList, else add to invalidFileList
+
+        const newCourseWithSite: CourseWithSite = {
+          courseId: uploadResponse.course.id,
+          siteId: uploadResponse.site.id,
+          guid: uploadResponse.site.guid,
+          name: uploadResponse.course.name,
+          language: uploadResponse.course.language,
+          title: uploadResponse.site.title,
+        };
+        setCourseList([...courseList, newCourseWithSite]);
       });
 
       fileRejections.forEach((rejection) => {
