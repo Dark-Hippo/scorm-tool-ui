@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { FileUploader } from '../FileUploader';
-import { CourseList } from '../components/CourseList';
+import { CourseWithSiteList } from '../components/CourseWithSiteList';
 import { useCallback, useState } from 'react';
 import { FileUploadStatus, FileWithStatus } from '../types/FileWithStatus';
 import { InvalidFileList } from '../components/InvalidFileList';
@@ -92,7 +92,7 @@ export const Upload = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <FileUploader onDrop={onDrop} />
-      <CourseList data={courseList} />
+      <CourseWithSiteList data={courseList} />
       <hr />
       <InvalidFileList data={invalidFileList} />
     </Box>
