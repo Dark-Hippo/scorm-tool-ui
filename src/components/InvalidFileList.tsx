@@ -6,6 +6,7 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { StatusIndicator } from './StatusIndicator';
 
 import type { FileWithStatus } from '../types/FileWithStatus';
 
@@ -33,7 +34,9 @@ export const InvalidFileList = ({ data }: { data: FileWithStatus[] }) => {
                 key={fileWithStatus.file.name}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell align="left">{fileWithStatus.status}</TableCell>
+                <TableCell align="left">
+                  <StatusIndicator status={fileWithStatus.status} />
+                </TableCell>
                 <TableCell align="left">{fileWithStatus.file.name}</TableCell>
                 <TableCell align="left">
                   {fileWithStatus.message?.map(
