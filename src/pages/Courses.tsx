@@ -1,23 +1,23 @@
 import { useEffect, useState } from 'react';
+import { ListCoursesWithSites } from '../services/CourseService';
+import { CourseWithSiteList } from '../components/CourseWithSiteList';
 
-import type { Course } from '../types/Course';
-import { ListCourses } from '../services/CourseService';
-import { CourseList } from '../components/CourseList';
+import type { CourseWithSite } from '../types/CourseWithSite';
 
 export default function Courses() {
   const [loading, setLoading] = useState(false);
-  const [courses, setCourses] = useState<Course[]>([]);
+  const [courses, setCourses] = useState<CourseWithSite[]>([]);
 
   if (loading) return <h1>Loading.</h1>;
 
   useEffect(() => {
     async function getCourses() {
-      const courses = await ListCourses();
+      const courses = await ListCoursesWithSites();
       setCourses(courses);
     }
 
     getCourses();
   }, []);
 
-  return <CourseList data={courses} />;
+  return <CourseWithSiteList data={courses} />;
 }
