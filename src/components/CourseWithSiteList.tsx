@@ -34,19 +34,19 @@ export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
           <TableBody>
             {data.map((courseWithSite: CourseWithSite) => (
               <TableRow
-                key={courseWithSite.courseId}
+                key={courseWithSite.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell align="left">Tick</TableCell>
                 <TableCell align="left">{courseWithSite.name}</TableCell>
                 <TableCell align="left">{courseWithSite.language}</TableCell>
-                <TableCell align="left">Site goes here</TableCell>
-                <TableCell align="left">{courseWithSite.title}</TableCell>
+                <TableCell align="left">{courseWithSite.site?.guid}</TableCell>
+                <TableCell align="left">{courseWithSite.site?.title}</TableCell>
                 <TableCell align="left">
-                  {courseWithSite.lastAccessed
-                    ? new Date(courseWithSite.lastAccessed).toLocaleDateString(
-                        'en-GB'
-                      )
+                  {courseWithSite.site?.lastAccessed
+                    ? new Date(
+                        courseWithSite.site?.lastAccessed
+                      ).toLocaleDateString('en-GB')
                     : null}
                 </TableCell>
                 <TableCell align="left">
