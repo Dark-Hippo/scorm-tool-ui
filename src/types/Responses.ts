@@ -1,5 +1,4 @@
-import type { Course } from './Course';
-import { Site } from './Site';
+import type { CourseWithSite } from './CourseWithSite';
 
 interface APIResponse {
   isValid: boolean;
@@ -12,8 +11,7 @@ interface ScormValidateResponse extends APIResponse {
 }
 
 interface ScormUploadResponse extends APIResponse {
-  course: Course;
-  site: Site;
+  course: CourseWithSite;
 }
 
 export type { APIResponse, ScormValidateResponse, ScormUploadResponse };

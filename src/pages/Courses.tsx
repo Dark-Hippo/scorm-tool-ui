@@ -1,51 +1,23 @@
 import { useEffect, useState } from 'react';
-import { SERVER } from '../config';
+import { ListCoursesWithSites } from '../services/CourseService';
+import { CourseWithSiteList } from '../components/CourseWithSiteList';
 
-import type { Course } from '../types/Course';
+import type { CourseWithSite } from '../types/CourseWithSite';
 
 export default function Courses() {
   const [loading, setLoading] = useState(false);
-  const [courses, setCourses] = useState<Course[]>();
+  const [courses, setCourses] = useState<CourseWithSite[]>([]);
 
   if (loading) return <h1>Loading.</h1>;
 
   useEffect(() => {
     async function getCourses() {
-      const response = await fetch(`${SERVER}/course`, {
-        method: 'GET',
-        mode: 'cors',
-      });
-      const result: Course[] = await response.json();
-      console.log(result);
-      setCourses(result);
+      const courses = await ListCoursesWithSites();
+      setCourses(courses);
     }
 
     getCourses();
   }, []);
 
-  // const SendToServer = async (file: File) => {
-  //   const formData = new FormData();
-  //   formData.append('scorm', file);
-  //   const response = await fetch(`${SERVER}/scorm`, {
-  //     method: 'POST',
-  //     body: formData,
-  //     mode: 'cors',
-  //   });
-  //   const result = await response.json();
-
-  //   return result;
-  // };
-
-  const courseList = courses?.map((course) => (
-    <li>
-      {course.id}.{course.name} ({course.language}) -{' '}
-      <em>{new Date(course.updatedDate).toLocaleDateString()}</em>
-    </li>
-  ));
-
-  return (
-    <div>
-      <ul>{courseList}</ul>
-    </div>
-  );
+  return <CourseWithSiteList data={courses} />;
 }

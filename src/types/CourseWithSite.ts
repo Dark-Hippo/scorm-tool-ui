@@ -1,11 +1,8 @@
-interface CourseWithSite {
-  courseId: number;
-  siteId: number;
-  name: string;
-  guid: string;
-  language: string;
-  title: string;
-  lastAccessed?: Date;
+import { Course } from './Course';
+import { Site } from './Site';
+
+interface CourseWithSite extends Course {
+  site?: Site;
 }
 
 export type { CourseWithSite };
