@@ -11,6 +11,8 @@ import {
 import type { CourseWithSite } from '../types/CourseWithSite';
 
 import './CourseList.css';
+import { Link } from 'react-router-dom';
+import { SERVER } from '../config';
 
 export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
   if (data.length === 0) {
@@ -40,7 +42,13 @@ export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
                 <TableCell align="left">Tick</TableCell>
                 <TableCell align="left">{courseWithSite.name}</TableCell>
                 <TableCell align="left">{courseWithSite.language}</TableCell>
-                <TableCell align="left">{courseWithSite.site?.guid}</TableCell>
+                <TableCell align="left">
+                  <Link
+                    to={`${SERVER}/site/${courseWithSite.site?.guid}/course/`}
+                  >
+                    View site
+                  </Link>
+                </TableCell>
                 <TableCell align="left">{courseWithSite.site?.title}</TableCell>
                 <TableCell align="left">
                   {courseWithSite.site?.lastAccessed
