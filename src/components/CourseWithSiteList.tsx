@@ -13,11 +13,17 @@ import type { CourseWithSite } from '../types/CourseWithSite';
 import './CourseList.css';
 import { Link } from 'react-router-dom';
 import { SERVER } from '../config';
+import { CourseEditModal } from './CourseEditModal';
 
 export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
   if (data.length === 0) {
     return null;
   }
+
+  const handleCourseDelete = (courseWithSite: CourseWithSite) => {
+    console.log('deleting');
+  };
+
   return (
     <section className="uploaded-files">
       <TableContainer>
@@ -58,7 +64,10 @@ export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
                     : null}
                 </TableCell>
                 <TableCell align="left">
-                  <Edit />
+                  <CourseEditModal
+                    courseWithSite={courseWithSite}
+                    courseDeleteHandler={handleCourseDelete}
+                  />
                 </TableCell>
               </TableRow>
             ))}
