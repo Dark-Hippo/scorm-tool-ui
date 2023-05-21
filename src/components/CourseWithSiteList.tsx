@@ -1,4 +1,3 @@
-import { Edit } from '@mui/icons-material';
 import {
   Table,
   TableBody,
@@ -14,14 +13,24 @@ import './CourseList.css';
 import { Link } from 'react-router-dom';
 import { SERVER } from '../config';
 import { CourseEditModal } from './CourseEditModal';
+import { DeleteCourseWithSite } from '../services/CourseService';
+import { useState } from 'react';
 
 export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
   if (data.length === 0) {
     return null;
   }
 
-  const handleCourseDelete = (courseWithSite: CourseWithSite) => {
-    console.log('deleting');
+  const [courses, setCourses] = useState<CourseWithSite[]>(data);
+
+  const handleCourseDelete = async (courseWithSite: CourseWithSite) => {
+    const deleted = await DeleteCourseWithSite(courseWithSite);
+    if (deleted) {
+      const updatedCourses = courses.filter(
+        (course) => course.id !== courseWithSite.id
+      );
+      setCourses(updatedCourses);
+    }
   };
 
   return (
@@ -40,7 +49,7 @@ export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {data.map((courseWithSite: CourseWithSite) => (
+            {courses.map((courseWithSite: CourseWithSite) => (
               <TableRow
                 key={courseWithSite.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
