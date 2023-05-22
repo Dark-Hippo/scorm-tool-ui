@@ -42,7 +42,9 @@ export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
               <TableCell align="left">Status</TableCell>
               <TableCell align="left">Course name</TableCell>
               <TableCell align="left">Language</TableCell>
-              <TableCell align="left">Site address</TableCell>
+              <TableCell align="left" colSpan={2}>
+                Site address
+              </TableCell>
               <TableCell align="left">Filename</TableCell>
               <TableCell align="left">Last accessed</TableCell>
               <TableCell align="left">Edit</TableCell>
@@ -60,8 +62,16 @@ export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
                 <TableCell align="left">
                   <Link
                     to={`${SERVER}/site/${courseWithSite.site?.guid}/course/`}
+                    target="_blank"
                   >
                     View site
+                  </Link>
+                </TableCell>
+                <TableCell>
+                  <Link
+                    to={`${SERVER}/site/${courseWithSite.site?.guid}/original/`}
+                  >
+                    Download original
                   </Link>
                 </TableCell>
                 <TableCell align="left">{courseWithSite.site?.title}</TableCell>
