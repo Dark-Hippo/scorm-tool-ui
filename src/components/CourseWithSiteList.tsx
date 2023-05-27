@@ -10,7 +10,7 @@ import {
 import type { CourseWithSite } from '../types/CourseWithSite';
 
 import './CourseList.css';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { SERVER } from '../config';
 import { CourseEditModal } from './CourseEditModal';
 import { DeleteCourseWithSite } from '../services/CourseService';
@@ -60,12 +60,9 @@ export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
                 <TableCell align="left">{courseWithSite.name}</TableCell>
                 <TableCell align="left">{courseWithSite.language}</TableCell>
                 <TableCell align="left">
-                  <Link
-                    to={`${SERVER}/site/${courseWithSite.site?.guid}/course/`}
-                    target="_blank"
-                  >
+                  <NavLink to={`/site/${courseWithSite.site?.guid}`}>
                     View site
-                  </Link>
+                  </NavLink>
                 </TableCell>
                 <TableCell>
                   <Link
