@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import { Route, Routes } from 'react-router-dom';
 import Courses from './pages/Courses';
 import { Upload } from './pages/Upload';
+import { Site } from './pages/Site';
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/courses" element={<Courses />} />
+          <Route path="/site" element={<Courses />} />
+          <Route path="/site/:guid" element={<Site />} />
         </Routes>
       </main>
     </div>
