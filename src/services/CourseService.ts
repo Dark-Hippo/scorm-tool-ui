@@ -16,7 +16,7 @@ export const ListCourses = async (): Promise<Course[]> => {
 };
 
 export const ListCoursesWithSites = async (): Promise<CourseWithSite[]> => {
-  const response = await fetch(`${SERVER}/course/site`, {
+  const response = await fetch(`/api/course/site`, {
     method: 'GET',
     mode: 'cors',
   });

@@ -15,6 +15,7 @@ import { SERVER } from '../config';
 import { CourseEditModal } from './CourseEditModal';
 import { DeleteCourseWithSite } from '../services/CourseService';
 import { useState } from 'react';
+import { SiteLink } from './SiteLink';
 
 export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
   if (data.length === 0) {
@@ -60,16 +61,16 @@ export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
                 <TableCell align="left">{courseWithSite.name}</TableCell>
                 <TableCell align="left">{courseWithSite.language}</TableCell>
                 <TableCell align="left">
-                  <Link
-                    to={`${SERVER}/site/${courseWithSite.site?.guid}/course/`}
-                    target="_blank"
-                  >
-                    View site
-                  </Link>
+                  {courseWithSite.site && (
+                    <SiteLink
+                      id={courseWithSite.site?.id}
+                      guid={courseWithSite.site?.guid}
+                    />
+                  )}
                 </TableCell>
                 <TableCell>
                   <Link
-                    to={`${SERVER}/site/${courseWithSite.site?.guid}/original/`}
+                    to={`${SERVER}/site/${courseWithSite.site?.id}/${courseWithSite.site?.guid}/original/`}
                   >
                     Download original
                   </Link>
