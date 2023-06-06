@@ -1,8 +1,7 @@
 import { useParams } from 'react-router-dom';
-import { ScormAPI } from '../services/API';
 
 export const Site = () => {
-  const { guid } = useParams();
+  const { id, guid } = useParams();
 
   if (!guid) {
     return null;
@@ -10,7 +9,11 @@ export const Site = () => {
 
   return (
     <div style={{ height: '85vh' }}>
-      <iframe src={`/api/site/${guid}/course/`} width="100%" height="100%" />
+      <iframe
+        src={`/api/site/${id}/${guid}/webcontent/`}
+        width="100%"
+        height="100%"
+      />
     </div>
   );
 };
