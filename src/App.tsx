@@ -18,7 +18,7 @@ function App() {
           <Route path="/upload" element={<Upload />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/site" element={<Courses />} />
-          <Route path="/site/:guid" element={<Site />} />
+          <Route path="/site/:id/:guid/webcontent" element={<Site />} />
         </Routes>
       </main>
     </div>
