@@ -6,25 +6,25 @@ export const ScormAPI_1_2: API_SCORM_1_2 = {
     return 'true';
   },
   LMSFinish: function (): void {
-    throw new Error('Function not implemented.');
+    console.log('In LMSFinish');
   },
   LMSGetValue: function (): void {
-    throw new Error('Function not implemented.');
+    console.log('In LMSGetValue');
   },
   LMSSetValue: function (): void {
-    throw new Error('Function not implemented.');
+    console.log('In LMSSetValue');
   },
   LMSCommit: function (): void {
-    throw new Error('Function not implemented.');
+    console.log('In LMSCommit');
   },
   LMSGetLastError: function (): void {
-    throw new Error('Function not implemented.');
+    console.log('In LMSGetLastError');
   },
   LMSGetErrorString: function (): void {
-    throw new Error('Function not implemented.');
+    console.log('In LMSGetErrorString');
   },
   LMSGetDiagnostic: function (): void {
-    throw new Error('Function not implemented.');
+    console.log('In LMSGetDiagnostic');
   },
 };
 
