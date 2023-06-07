@@ -40,7 +40,7 @@ export const InvalidFileList = ({ data }: { data: FileWithStatus[] }) => {
                 <TableCell align="left">{fileWithStatus.file.name}</TableCell>
                 <TableCell align="left">
                   {fileWithStatus.message?.map(
-                    (message) => `${message.code} - ${message.message}, `
+                    (message) => `${message.message} (${message.code}); `
                   )}
                 </TableCell>
               </TableRow>
