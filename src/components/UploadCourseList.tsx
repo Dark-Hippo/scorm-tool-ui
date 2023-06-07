@@ -7,13 +7,8 @@ import {
   TableRow,
 } from '@mui/material';
 
-import type { CourseWithSite } from '../types/CourseWithSite';
-
 import './CourseList.css';
-import { useCallback, useEffect, useState } from 'react';
-import { SiteLink } from './SiteLink';
 import { FileRejection, FileWithPath } from 'react-dropzone';
-import { UploadScormFile } from '../services/ScormService';
 import { InvalidFileRow } from './InvalidFileRow';
 import { ValidFileRow } from './ValidFileRow';
 
