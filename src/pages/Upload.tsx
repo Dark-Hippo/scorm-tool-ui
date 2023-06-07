@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { FileUploader } from '../FileUploader';
-import { CourseList } from '../components/CourseList';
+import { UploadCourseList } from '../components/UploadCourseList';
 import { useCallback, useState } from 'react';
 import { FileUploadStatus, FileWithStatus } from '../types/FileWithStatus';
 import { InvalidFileList } from '../components/InvalidFileList';
@@ -12,6 +12,18 @@ import { UploadScormFile } from '../services/ScormService';
 export const Upload = () => {
   const [courseList, setCourseList] = useState<CourseWithSite[]>([]);
   const [invalidFileList, setInvalidFileList] = useState<FileWithStatus[]>([]);
+
+  const handleFileRejections = (fileRejections: FileRejection[]) => {
+    fileRejections.forEach((rejection) => {
+      const fileWithStatus: FileWithStatus = {
+        file: rejection.file,
+        status: FileUploadStatus.Invalid,
+        message: rejection.errors,
+      };
+
+      setInvalidFileList([...invalidFileList, fileWithStatus]);
+    });
+  };
 
   const onDrop = useCallback(
     (acceptedFiles: FileWithPath[], fileRejections: FileRejection[]) => {
@@ -42,15 +54,7 @@ export const Upload = () => {
         setCourseList([...courseList, newCourseWithSite]);
       });
 
-      fileRejections.forEach((rejection) => {
-        const fileWithStatus: FileWithStatus = {
-          file: rejection.file,
-          status: FileUploadStatus.Invalid,
-          message: rejection.errors,
-        };
-
-        setInvalidFileList([...invalidFileList, fileWithStatus]);
-      });
+      handleFileRejections(fileRejections);
     },
     []
   );
@@ -58,7 +62,7 @@ export const Upload = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <FileUploader onDrop={onDrop} />
-      <CourseList data={courseList} />
+      <UploadCourseList data={courseList} />
       <hr />
       <InvalidFileList data={invalidFileList} />
     </Box>
