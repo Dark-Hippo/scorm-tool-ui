@@ -17,7 +17,7 @@ import { DeleteCourseWithSite } from '../services/CourseService';
 import { useState } from 'react';
 import { SiteLink } from './SiteLink';
 
-export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
+export const CourseList = ({ data }: { data: CourseWithSite[] }) => {
   if (data.length === 0) {
     return null;
   }

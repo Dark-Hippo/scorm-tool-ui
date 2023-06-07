@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ListCoursesWithSites } from '../services/CourseService';
-import { CourseWithSiteList } from '../components/CourseWithSiteList';
+import { CourseList } from '../components/CourseList';
 
 import type { CourseWithSite } from '../types/CourseWithSite';
 
@@ -19,5 +19,5 @@ export default function Courses() {
     getCourses();
   }, []);
 
-  return <CourseWithSiteList data={courses} />;
+  return <CourseList data={courses} />;
 }
