@@ -9,7 +9,7 @@ export const InvalidFileRow = ({
   fileRejection: FileRejection;
 }) => {
   return (
-    <TableRow>
+    <TableRow className="invalid">
       <TableCell align="left">
         <StatusIndicator status={FileUploadStatus.Invalid} />
       </TableCell>

@@ -35,7 +35,9 @@ export const ValidFileRow = ({
     uploadFile();
   }, []);
   return (
-    <TableRow>
+    <TableRow
+      className={status === FileUploadStatus.Complete ? 'valid' : 'invalid'}
+    >
       <TableCell align="left">
         <StatusIndicator status={status} />
       </TableCell>
