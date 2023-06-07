@@ -1,3 +1,11 @@
 .uploaded-files thead th {
   font-weight: bold;
 }
+
+.uploaded-files tbody tr.invalid td {
+  color: #f00;
+}
+
+.uploaded-files tbody tr td svg {
+  vertical-align: middle;
+}

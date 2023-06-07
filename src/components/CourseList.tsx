@@ -17,7 +17,7 @@ import { DeleteCourseWithSite } from '../services/CourseService';
 import { useState } from 'react';
 import { SiteLink } from './SiteLink';
 
-export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
+export const CourseList = ({ data }: { data: CourseWithSite[] }) => {
   if (data.length === 0) {
     return null;
   }
@@ -40,7 +40,6 @@ export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="left">Status</TableCell>
               <TableCell align="left">Course name</TableCell>
               <TableCell align="left">Language</TableCell>
               <TableCell align="left" colSpan={2}>
@@ -57,7 +56,6 @@ export const CourseWithSiteList = ({ data }: { data: CourseWithSite[] }) => {
                 key={courseWithSite.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell align="left">Tick</TableCell>
                 <TableCell align="left">{courseWithSite.name}</TableCell>
                 <TableCell align="left">{courseWithSite.language}</TableCell>
                 <TableCell align="left">
