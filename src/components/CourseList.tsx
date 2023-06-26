@@ -11,7 +11,7 @@ import type { CourseWithSite } from '../types/CourseWithSite';
 
 import './CourseList.css';
 import { Link } from 'react-router-dom';
-import { SERVER } from '../config';
+import { API_URL } from '../config';
 import { CourseEditModal } from './CourseEditModal';
 import { DeleteCourseWithSite } from '../services/CourseService';
 import { useState } from 'react';
@@ -68,7 +68,7 @@ export const CourseList = ({ data }: { data: CourseWithSite[] }) => {
                 </TableCell>
                 <TableCell>
                   <Link
-                    to={`${SERVER}/site/${courseWithSite.site?.id}/${courseWithSite.site?.guid}/original/`}
+                    to={`${API_URL}/site/${courseWithSite.site?.id}/${courseWithSite.site?.guid}/original/`}
                   >
                     Download original
                   </Link>

@@ -1,4 +1,4 @@
-import { SERVER, USER_ID } from '../config';
+import { API_URL, USER_ID } from '../config';
 
 import type {
   ScormValidateResponse,
@@ -10,7 +10,7 @@ export const ValidateScormFile = async (
 ): Promise<ScormValidateResponse> => {
   const formData = new FormData();
   formData.append('scorm', file);
-  const response = await fetch(`${SERVER}/scorm/validate`, {
+  const response = await fetch(`${API_URL}/scorm/validate`, {
     method: 'POST',
     body: formData,
     mode: 'cors',
@@ -26,7 +26,7 @@ export const UploadScormFile = async (
   const formData = new FormData();
   formData.append('scorm', file);
   formData.append('userId', USER_ID.toString());
-  const response = await fetch(`${SERVER}/scorm/upload`, {
+  const response = await fetch(`${API_URL}/scorm/upload`, {
     method: 'POST',
     body: formData,
     mode: 'cors',

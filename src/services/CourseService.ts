@@ -1,11 +1,11 @@
-import { SERVER } from '../config';
+import { API_URL } from '../config';
 
 import type { Course } from '../types/Course';
 import type { CourseWithSite } from '../types/CourseWithSite';
 import { Site } from '../types/Site';
 
 export const ListCourses = async (): Promise<Course[]> => {
-  const response = await fetch(`${SERVER}/course`, {
+  const response = await fetch(`${API_URL}/course`, {
     method: 'GET',
     mode: 'cors',
   });
@@ -33,7 +33,7 @@ export const DeleteCourseWithSite = async (
     await deleteSite(course.site);
   }
 
-  const deleteUrl = `${SERVER}/course/${course.id}`;
+  const deleteUrl = `${API_URL}/course/${course.id}`;
   const response = await fetch(deleteUrl, {
     method: 'DELETE',
     mode: 'cors',
@@ -47,7 +47,7 @@ export const DeleteCourseWithSite = async (
 };
 
 const deleteSite = async (site: Site) => {
-  const deleteUrl = `${SERVER}/site/${site.id}`;
+  const deleteUrl = `${API_URL}/site/${site.id}`;
   const response = await fetch(deleteUrl, {
     method: 'DELETE',
     mode: 'cors',
