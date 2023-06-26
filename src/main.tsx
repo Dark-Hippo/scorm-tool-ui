@@ -18,8 +18,6 @@ declare global {
 window.API = ScormAPI_1_2;
 window.API_1484_11 = ScormAPI_2004;
 
-const test = import.meta.env.REACT_APP_AUTH_TEST;
-
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Auth0Provider
