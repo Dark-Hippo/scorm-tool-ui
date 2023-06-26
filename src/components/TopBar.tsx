@@ -19,12 +19,16 @@ export default function TopBar() {
             <Button sx={{}}>
               <NavLink to="/">Home</NavLink>
             </Button>
-            <Button sx={{}}>
-              <NavLink to="/upload">Upload</NavLink>
-            </Button>
-            <Button>
-              <NavLink to="/courses">Courses</NavLink>
-            </Button>
+            {isAuthenticated && (
+              <>
+                <Button sx={{}}>
+                  <NavLink to="/upload">Upload</NavLink>
+                </Button>
+                <Button>
+                  <NavLink to="/courses">Courses</NavLink>
+                </Button>
+              </>
+            )}
           </Box>
           <Box sx={{ display: { md: 'flex' } }}>
             {isAuthenticated ? <LogoutButton /> : <LoginButton />}
