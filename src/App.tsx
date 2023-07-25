@@ -2,7 +2,7 @@ import './App.css';
 import TopBar from './components/TopBar';
 import Home from './pages/Home';
 import { Route, Routes } from 'react-router-dom';
-import Courses from './pages/Courses';
+import { Courses } from './pages/Courses';
 import { Upload } from './pages/Upload';
 import { Site } from './pages/Site';
 import { AuthenticationGuard } from './components/AuthenticationGuard';
