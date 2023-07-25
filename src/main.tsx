@@ -6,6 +6,7 @@ import App from './App';
 import './index.css';
 import type { API_SCORM_1_2, API_SCORM_2004 } from './types/ScormAPIs';
 import { ScormAPI_1_2, ScormAPI_2004 } from './services/ScormAPIs';
+import { Auth0Provider } from '@auth0/auth0-react';
 
 declare global {
   interface Window {
@@ -19,8 +20,17 @@ window.API_1484_11 = ScormAPI_2004;
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Auth0Provider
+      domain={import.meta.env.VITE_AUTH_DOMAIN}
+      clientId={import.meta.env.VITE_AUTH_CLIENT_ID}
+      authorizationParams={{
+        redirect_uri: window.location.origin,
+        audience: import.meta.env.VITE_AUTH_AUDIENCE,
+      }}
+    >
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Auth0Provider>
   </React.StrictMode>
 );
