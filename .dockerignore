@@ -1,0 +1,10 @@
+# Docker ignore file for the project
+node_modules
+dist
+*.md
+.env.*
+.dockerignore
+Dockerfile
+.prettierrc
+.gitiignore
+.vscode
