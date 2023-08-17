@@ -8,3 +8,4 @@ Dockerfile
 .prettierrc
 .gitiignore
 .vscode
+*.toml
