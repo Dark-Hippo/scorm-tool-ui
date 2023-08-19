@@ -1,0 +1,21 @@
+# fly.toml app configuration file generated for scorm-tool-ui on 2023-08-19T15:04:19+01:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "scorm-tool-ui"
+primary_region = "lhr"
+
+[build]
+
+[http_service]
+  internal_port = 80
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 80
