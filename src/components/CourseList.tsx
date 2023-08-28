@@ -16,16 +16,20 @@ import { CourseEditModal } from './CourseEditModal';
 import { DeleteCourseWithSite } from '../services/CourseService';
 import { useState } from 'react';
 import { SiteLink } from './SiteLink';
+import { useAuth0 } from '@auth0/auth0-react';
 
 export const CourseList = ({ data }: { data: CourseWithSite[] }) => {
   if (data.length === 0) {
     return null;
   }
 
+  const { getAccessTokenSilently } = useAuth0();
+
   const [courses, setCourses] = useState<CourseWithSite[]>(data);
 
   const handleCourseDelete = async (courseWithSite: CourseWithSite) => {
-    const deleted = await DeleteCourseWithSite(courseWithSite);
+    const accessToken = await getAccessTokenSilently();
+    const deleted = await DeleteCourseWithSite(courseWithSite, accessToken);
     if (deleted) {
       const updatedCourses = courses.filter(
         (course) => course.id !== courseWithSite.id
