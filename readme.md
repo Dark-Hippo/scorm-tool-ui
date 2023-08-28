@@ -39,3 +39,8 @@ Some environment variables are required for the application to run. These are:
 - VITE_AUTH_CLIENT_ID - The Auth0 client ID to use.
 - VITE_AUTH_AUDIENCE - The Auth0 audience to use.
 - VITE_AUTH_CALLBACK_URL - The Auth0 callback URL to use.
+
+### TODO
+
+- Add note about deployment with Netlify
+- Add better description
