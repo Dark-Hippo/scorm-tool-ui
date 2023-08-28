@@ -6,6 +6,8 @@ import { Courses } from './pages/Courses';
 import { Upload } from './pages/Upload';
 import { Site } from './pages/Site';
 import { AuthenticationGuard } from './components/AuthenticationGuard';
+import { HealthPage } from './pages/Health';
+import NotFound from './pages/404';
 
 function App() {
   return (
@@ -17,18 +19,23 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
-            path="/upload"
+            path="upload"
             element={<AuthenticationGuard component={Upload} />}
           />
           <Route
-            path="/courses"
+            path="courses"
             element={<AuthenticationGuard component={Courses} />}
           />
           <Route
-            path="/site"
+            path="site"
             element={<AuthenticationGuard component={Courses} />}
           />
-          <Route path="/site/:id/:guid/webcontent" element={<Site />} />
+          <Route path="site/:id/:guid/webcontent" element={<Site />} />
+          <Route
+            path="health"
+            element={<AuthenticationGuard component={HealthPage} />}
+          ></Route>
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </div>
