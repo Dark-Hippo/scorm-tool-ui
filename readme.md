@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d9ddb621-0ef6-48e8-878f-c26c9ab76e72/deploy-status)](https://app.netlify.com/sites/glittering-travesseiro-c3f77e/deploys)
+
 # Scorm Tool UI
 
 ## Description
