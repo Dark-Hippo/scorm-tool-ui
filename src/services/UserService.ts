@@ -1,8 +1,8 @@
-import type { UserData } from '../types/UserProfile';
+import type { NewUserData, UserData } from '../types/UserProfile';
 import { LogError } from './ErrorService';
 
 export const createUser = async (
-  profileData: UserData,
+  profileData: NewUserData,
   accessToken: string
 ): Promise<void> => {
   const response = await fetch(`/api/profiles`, {
