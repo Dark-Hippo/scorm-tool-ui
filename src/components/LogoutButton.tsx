@@ -7,9 +7,7 @@ export const LogoutButton = () => {
 
   return (
     <Button
-      variant="contained"
       disableElevation
-      color="secondary"
       onClick={() =>
         logout({ logoutParams: { returnTo: window.location.origin } })
       }
