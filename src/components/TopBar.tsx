@@ -7,6 +7,7 @@ import './TopBar.css';
 import { LoginButton } from './LoginButton';
 import { useAuth0 } from '@auth0/auth0-react';
 import { LogoutButton } from './LogoutButton';
+import ProfileMenu from './ProfileMenu';
 
 export default function TopBar() {
   const { isAuthenticated } = useAuth0();
@@ -33,8 +34,9 @@ export default function TopBar() {
               </>
             )}
           </Box>
+
           <Box sx={{ display: { md: 'flex' } }}>
-            {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+            {isAuthenticated ? <ProfileMenu /> : <LoginButton />}
           </Box>
         </Toolbar>
       </AppBar>
