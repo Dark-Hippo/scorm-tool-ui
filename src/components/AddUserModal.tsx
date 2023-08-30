@@ -3,7 +3,7 @@ import { Button, Box, Modal } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useAuth0 } from '@auth0/auth0-react';
 import AddUser from './AddUser';
-import { NewUserData } from '../types/UserProfile';
+import { UserData } from '../types/UserProfile';
 import { createUser } from '../services/UserService';
 
 const Form = styled('form')(({ theme }) => ({
@@ -26,7 +26,11 @@ const style = {
   p: 4,
 };
 
-export default function AddUserModal() {
+export default function AddUserModal({
+  onSubmit,
+}: {
+  onSubmit: (userData: UserData) => void;
+}) {
   const { getAccessTokenSilently } = useAuth0();
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -38,9 +42,8 @@ export default function AddUserModal() {
     setModalOpen(false);
   };
 
-  const handleSubmit = async (userData: NewUserData) => {
-    const token = await getAccessTokenSilently();
-    await createUser(userData, token);
+  const handleSubmit = async (userData: UserData) => {
+    onSubmit(userData);
     handleCloseModal();
   };
 

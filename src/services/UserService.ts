@@ -1,26 +1,29 @@
-import type { NewUserData, UserData } from '../types/UserProfile';
+import type { UserData } from '../types/UserProfile';
 import { LogError } from './ErrorService';
 
 export const createUser = async (
-  profileData: NewUserData,
+  profileData: UserData,
   accessToken: string
-): Promise<void> => {
-  const response = await fetch(`/api/profiles`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify(profileData),
-  });
+): Promise<UserData> => {
+  // const response = await fetch(`/api/profiles`, {
+  //   method: 'POST',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     Authorization: `Bearer ${accessToken}`,
+  //   },
+  //   body: JSON.stringify(profileData),
+  // });
 
-  if (!response.ok) {
-    LogError({
-      status: response.status,
-      message: response.statusText,
-    });
-    throw new Error('Failed to create profile');
-  }
+  // if (!response.ok) {
+  //   LogError({
+  //     status: response.status,
+  //     message: response.statusText,
+  //   });
+  //   throw new Error('Failed to create profile');
+  // }
+
+  // Return mock data
+  return profileData;
 };
 
 export const getUser = async (
@@ -57,23 +60,25 @@ export const updateUser = async (
   email: string,
   profileData: UserData,
   accessToken: string
-): Promise<void> => {
-  const response = await fetch(`/api/profiles/${email}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify(profileData),
-  });
+): Promise<UserData> => {
+  // const response = await fetch(`/api/profiles/${email}`, {
+  //   method: 'PUT',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     Authorization: `Bearer ${accessToken}`,
+  //   },
+  //   body: JSON.stringify(profileData),
+  // });
 
-  if (!response.ok) {
-    LogError({
-      status: response.status,
-      message: response.statusText,
-    });
-    throw new Error('Failed to update profile');
-  }
+  // if (!response.ok) {
+  //   LogError({
+  //     status: response.status,
+  //     message: response.statusText,
+  //   });
+  //   throw new Error('Failed to update profile');
+  // }
+
+  return profileData;
 };
 
 export const deleteUser = async (

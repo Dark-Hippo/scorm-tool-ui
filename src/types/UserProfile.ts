@@ -1,12 +1,7 @@
-interface NewUserData {
-  email: string;
-  name: string;
-}
-
 interface UserData {
   email: string;
   name: string;
-  lastLoggedIn: Date;
+  lastLoggedIn?: Date;
 }
 
-export type { UserData, NewUserData };
+export type { UserData };

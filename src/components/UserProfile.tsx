@@ -35,7 +35,8 @@ export default function UserProfile() {
           <p>Email: {userData?.email}</p>
           <p>Name: {userData?.name}</p>
           <p>
-            Last logged in: {userData?.lastLoggedIn.toLocaleDateString('en-GB')}
+            Last logged in:{' '}
+            {userData?.lastLoggedIn?.toLocaleDateString('en-GB')}
           </p>
         </>
       )}

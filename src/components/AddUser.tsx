@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { NewUserData } from '../types/UserProfile';
+import { UserData } from '../types/UserProfile';
 
 const Form = styled('form')(({ theme }) => ({
   display: 'flex',
@@ -18,7 +18,7 @@ const SubmitButton = styled(Button)(({ theme }) => ({
 }));
 
 interface AddUserFormProps {
-  onSubmit: (userData: NewUserData) => Promise<void>;
+  onSubmit: (userData: UserData) => Promise<void>;
 }
 
 export default function AddUserForm({ onSubmit }: AddUserFormProps) {

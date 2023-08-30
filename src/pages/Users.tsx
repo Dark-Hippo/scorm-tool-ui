@@ -16,7 +16,7 @@ import {
 import { styled } from '@mui/material/styles';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { UserData } from '../types/UserProfile';
-import { getUsers } from '../services/UserService';
+import { createUser, getUsers } from '../services/UserService';
 import { useAuth0 } from '@auth0/auth0-react';
 import AddUserModal from '../components/AddUserModal';
 
@@ -46,8 +46,14 @@ export default function UsersPage() {
     }
   };
 
+  const handleAddUser = async (userData: UserData) => {
+    const token = await getAccessTokenSilently();
+    const newUser = await createUser(userData, token);
+    setUsers([...users, newUser]);
+  };
+
   useEffect(() => {
-    const getProfilesData = async () => {
+    const getUsersData = async () => {
       setLoading(true);
       const accessToken = await getAccessTokenSilently();
       const usersData = await getUsers(accessToken);
@@ -57,7 +63,7 @@ export default function UsersPage() {
       setLoading(false);
     };
 
-    getProfilesData();
+    getUsersData();
   }, [getAccessTokenSilently]);
 
   const filteredUsers = users.filter((profile) =>
@@ -68,10 +74,14 @@ export default function UsersPage() {
     const aValue = a[sortField];
     const bValue = b[sortField];
 
-    if (aValue < bValue) {
-      return sortDirection === 'asc' ? -1 : 1;
-    } else if (aValue > bValue) {
-      return sortDirection === 'asc' ? 1 : -1;
+    if (aValue !== undefined && bValue !== undefined) {
+      if (aValue < bValue) {
+        return sortDirection === 'asc' ? -1 : 1;
+      } else if (aValue > bValue) {
+        return sortDirection === 'asc' ? 1 : -1;
+      } else {
+        return 0;
+      }
     } else {
       return 0;
     }
@@ -102,7 +112,7 @@ export default function UsersPage() {
             ),
           }}
         />
-        <AddUserModal />
+        <AddUserModal onSubmit={handleAddUser} />
       </Box>
       <TableContainer component={Paper}>
         <Table aria-label="users table">
@@ -143,7 +153,7 @@ export default function UsersPage() {
                 <TableCell>{profile.email}</TableCell>
                 <TableCell>{profile.name}</TableCell>
                 <TableCell>
-                  {profile.lastLoggedIn.toLocaleDateString('en-GB')}
+                  {profile.lastLoggedIn?.toLocaleDateString('en-GB')}
                 </TableCell>
               </TableRow>
             ))}
