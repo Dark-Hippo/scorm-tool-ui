@@ -11,16 +11,16 @@ import {
   InputAdornment,
   IconButton,
   TableSortLabel,
+  Box,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Search as SearchIcon } from '@mui/icons-material';
+import { Add, Search as SearchIcon } from '@mui/icons-material';
 import { UserData } from '../types/UserProfile';
 import { getUsers } from '../services/UserService';
 import { useAuth0 } from '@auth0/auth0-react';
+import AddUserModal from '../components/AddUserModal';
 
-const SearchTextField = styled(TextField)(({ theme }) => ({
-  marginBottom: theme.spacing(2),
-}));
+const SearchTextField = styled(TextField)(({ theme }) => ({}));
 
 export default function UsersPage() {
   const [loading, setLoading] = useState(false);
@@ -79,22 +79,31 @@ export default function UsersPage() {
 
   return (
     <div>
-      <SearchTextField
-        label="Search"
-        variant="outlined"
-        size="small"
-        value={searchText}
-        onChange={handleSearchTextChange}
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton>
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          marginBottom: '10px',
         }}
-      />
+      >
+        <SearchTextField
+          label="Search"
+          variant="outlined"
+          size="small"
+          value={searchText}
+          onChange={handleSearchTextChange}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton>
+                  <SearchIcon />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
+        <AddUserModal />
+      </Box>
       <TableContainer component={Paper}>
         <Table aria-label="users table">
           <TableHead>
