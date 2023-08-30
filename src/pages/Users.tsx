@@ -14,7 +14,7 @@ import {
   Box,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Add, Search as SearchIcon } from '@mui/icons-material';
+import { Search as SearchIcon } from '@mui/icons-material';
 import { UserData } from '../types/UserProfile';
 import { getUsers } from '../services/UserService';
 import { useAuth0 } from '@auth0/auth0-react';
