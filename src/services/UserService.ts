@@ -1,8 +1,8 @@
-import type { ProfileData } from '../types/UserProfile';
+import type { UserData } from '../types/UserProfile';
 import { LogError } from './ErrorService';
 
-export const createUserProfile = async (
-  profileData: ProfileData,
+export const createUser = async (
+  profileData: UserData,
   accessToken: string
 ): Promise<void> => {
   const response = await fetch(`/api/profiles`, {
@@ -23,10 +23,10 @@ export const createUserProfile = async (
   }
 };
 
-export const getProfile = async (
+export const getUser = async (
   email: string,
   accessToken: string
-): Promise<ProfileData | null> => {
+): Promise<UserData | null> => {
   // Return mock data
   return {
     email: email,
@@ -35,9 +35,27 @@ export const getProfile = async (
   };
 };
 
-export const updateProfile = async (
+export const getUsers = async (
+  accessToken: string
+): Promise<UserData[] | null> => {
+  // Return mock data
+  return [
+    {
+      email: 'john.doe@example.com',
+      name: 'John Doe',
+      lastLoggedIn: new Date('2021-08-01T12:34:56Z'),
+    },
+    {
+      email: 'bob.bobbington@example.com',
+      name: 'Bob Bobbington',
+      lastLoggedIn: new Date('2021-08-01T12:34:56Z'),
+    },
+  ];
+};
+
+export const updateUser = async (
   email: string,
-  profileData: ProfileData,
+  profileData: UserData,
   accessToken: string
 ): Promise<void> => {
   const response = await fetch(`/api/profiles/${email}`, {
@@ -58,7 +76,7 @@ export const updateProfile = async (
   }
 };
 
-export const deleteProfile = async (
+export const deleteUser = async (
   email: string,
   accessToken: string
 ): Promise<void> => {

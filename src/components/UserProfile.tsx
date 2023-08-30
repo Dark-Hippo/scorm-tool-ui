@@ -1,44 +1,44 @@
 import { useAuth0 } from '@auth0/auth0-react';
-import { ExpandMore } from '@mui/icons-material';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Box,
-} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { getUser } from '../services/UserService';
 
-export const UserProfile = () => {
-  const { user, isAuthenticated, isLoading } = useAuth0();
+import type { UserData } from '../types/UserProfile';
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+export default function UserProfile() {
+  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const { getAccessTokenSilently, getIdTokenClaims } = useAuth0();
+
+  useEffect(() => {
+    const getUserData = async () => {
+      setLoading(true);
+      const accessToken = await getAccessTokenSilently();
+      const idToken = await getIdTokenClaims();
+      const userEmail = idToken?.email;
+      if (!userEmail) {
+        throw new Error('No email address found in ID token');
+      }
+      const userProfileData = await getUser(userEmail, accessToken);
+      setUserData(userProfileData);
+      setLoading(false);
+    };
+
+    getUserData();
+  }, [getAccessTokenSilently, getIdTokenClaims]);
+
+  if (loading) return <h1>Loading...</h1>;
 
   return (
     <>
-      {isAuthenticated && (
-        <Box>
-          <img src={user?.picture} alt={user?.name} />
-          <h2>{user?.name}</h2>
-          <p>{user?.email}</p>
-          <Accordion>
-            <AccordionSummary expandIcon={<ExpandMore />}>
-              Decoded ID Token:
-            </AccordionSummary>
-            <AccordionDetails>
-              <code
-                style={{
-                  lineHeight: '32px',
-                  whiteSpace: 'pre-wrap',
-                  wordWrap: 'break-word',
-                }}
-              >
-                {JSON.stringify(user, null, 2)}
-              </code>
-            </AccordionDetails>
-          </Accordion>
-        </Box>
+      {userData && (
+        <>
+          <p>Email: {userData?.email}</p>
+          <p>Name: {userData?.name}</p>
+          <p>
+            Last logged in: {userData?.lastLoggedIn.toLocaleDateString('en-GB')}
+          </p>
+        </>
       )}
     </>
   );
-};
+}

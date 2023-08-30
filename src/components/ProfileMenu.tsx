@@ -33,6 +33,21 @@ function ProfileMenu() {
         </NavLink>
         <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
         <Divider />
+        <NavLink
+          onClick={handleMenuClose}
+          to={'/users'}
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <MenuItem>Users</MenuItem>
+        </NavLink>
+        <NavLink
+          onClick={handleMenuClose}
+          to={'/admin'}
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <MenuItem>Admin</MenuItem>
+        </NavLink>
+        <Divider />
         <LogoutButton />
       </Menu>
     </>
