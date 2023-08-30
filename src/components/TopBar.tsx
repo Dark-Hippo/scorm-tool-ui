@@ -6,7 +6,6 @@ import { Button } from '@mui/material';
 import './TopBar.css';
 import { LoginButton } from './LoginButton';
 import { useAuth0 } from '@auth0/auth0-react';
-import { LogoutButton } from './LogoutButton';
 import ProfileMenu from './ProfileMenu';
 
 export default function TopBar() {
