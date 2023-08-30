@@ -1,6 +1,7 @@
 import { useState, MouseEvent } from 'react';
 import { Avatar, Button, Divider, Menu, MenuItem } from '@mui/material';
 import { LogoutButton } from './LogoutButton';
+import { NavLink } from 'react-router-dom';
 
 function ProfileMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -23,7 +24,13 @@ function ProfileMenu() {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+        <NavLink
+          onClick={handleMenuClose}
+          to={'/profile'}
+          style={{ textDecoration: 'none', color: 'inherit' }}
+        >
+          <MenuItem>Profile</MenuItem>
+        </NavLink>
         <MenuItem onClick={handleMenuClose}>Settings</MenuItem>
         <Divider />
         <LogoutButton />
