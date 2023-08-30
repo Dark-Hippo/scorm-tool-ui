@@ -1,10 +1,13 @@
-import { useState, MouseEvent } from 'react';
+import { useState, MouseEvent, useEffect } from 'react';
 import { Avatar, Button, Divider, Menu, MenuItem } from '@mui/material';
 import { LogoutButton } from './LogoutButton';
 import { NavLink } from 'react-router-dom';
+import { useAuth0 } from '@auth0/auth0-react';
 
 function ProfileMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [picture, setPicture] = useState<string | undefined>('');
+  const { getIdTokenClaims } = useAuth0();
 
   const handleMenuOpen = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -14,10 +17,20 @@ function ProfileMenu() {
     setAnchorEl(null);
   };
 
+  useEffect(() => {
+    const getUserData = async () => {
+      const idToken = await getIdTokenClaims();
+      const picture = idToken?.picture;
+      setPicture(picture);
+    };
+
+    getUserData();
+  }, [getIdTokenClaims]);
+
   return (
     <>
       <Button onClick={handleMenuOpen}>
-        <Avatar alt="User Profile" src="/path/to/profile-image.jpg" />
+        <Avatar alt="User Profile" src={picture} />
       </Button>
       <Menu
         anchorEl={anchorEl}
