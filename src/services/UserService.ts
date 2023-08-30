@@ -23,6 +23,7 @@ export const createUser = async (
   // }
 
   // Return mock data
+  profileData.id = '123';
   return profileData;
 };
 
@@ -32,6 +33,7 @@ export const getUser = async (
 ): Promise<UserData | null> => {
   // Return mock data
   return {
+    id: '123',
     email: email,
     name: 'John Doe',
     lastLoggedIn: new Date('2021-08-01T12:34:56Z'),
@@ -44,11 +46,13 @@ export const getUsers = async (
   // Return mock data
   return [
     {
+      id: '123',
       email: 'john.doe@example.com',
       name: 'John Doe',
       lastLoggedIn: new Date('2021-08-01T12:34:56Z'),
     },
     {
+      id: '456',
       email: 'bob.bobbington@example.com',
       name: 'Bob Bobbington',
       lastLoggedIn: new Date('2021-08-01T12:34:56Z'),

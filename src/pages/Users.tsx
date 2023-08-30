@@ -14,11 +14,12 @@ import {
   Box,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Search as SearchIcon } from '@mui/icons-material';
+import { Label, Search as SearchIcon } from '@mui/icons-material';
 import { UserData } from '../types/UserProfile';
 import { createUser, getUsers } from '../services/UserService';
 import { useAuth0 } from '@auth0/auth0-react';
 import AddUserModal from '../components/AddUserModal';
+import EditUserModal from '../components/EditUserModal';
 
 const SearchTextField = styled(TextField)(({ theme }) => ({}));
 
@@ -145,6 +146,9 @@ export default function UsersPage() {
                   Last Logged In
                 </TableSortLabel>
               </TableCell>
+              <TableCell align="left" sx={{ fontWeight: 'bold' }}>
+                Edit
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -154,6 +158,9 @@ export default function UsersPage() {
                 <TableCell>{profile.name}</TableCell>
                 <TableCell>
                   {profile.lastLoggedIn?.toLocaleDateString('en-GB')}
+                </TableCell>
+                <TableCell>
+                  <EditUserModal user={profile} onClose={() => {}} />
                 </TableCell>
               </TableRow>
             ))}
