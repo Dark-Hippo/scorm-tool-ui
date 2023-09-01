@@ -1,23 +1,10 @@
 import { useState } from 'react';
-import { Button, Typography, Container, Box, Modal } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Typography, Container, Box, Modal } from '@mui/material';
 import { useAuth0 } from '@auth0/auth0-react';
 import { UserData } from '../types/UserProfile';
-import { updateUser, deleteUser } from '../services/UserService';
+import { updateUser, deleteUser } from '../services/UserServiceMock';
 import EditUserForm from '../components/EditUserForm';
 import { Edit } from '@mui/icons-material';
-
-const Form = styled('form')(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-}));
-
-const SubmitButton = styled(Button)(({ theme }) => ({}));
-
-const DeleteButton = styled(Button)(({ theme }) => ({
-  marginLeft: theme.spacing(2),
-}));
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -34,9 +21,16 @@ const style = {
 interface EditUserModalProps {
   user: UserData;
   onClose: () => void;
+  onSave: (userData: UserData) => void;
+  onDelete: () => void;
 }
 
-export default function EditUserModal({ user, onClose }: EditUserModalProps) {
+export default function EditUserModal({
+  user,
+  onClose,
+  onSave,
+  onDelete,
+}: EditUserModalProps) {
   const { getAccessTokenSilently } = useAuth0();
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -50,22 +44,12 @@ export default function EditUserModal({ user, onClose }: EditUserModalProps) {
   };
 
   const handleSave = async (userData: UserData) => {
-    if (!user.id) {
-      return;
-    }
-
-    const token = await getAccessTokenSilently();
-    await updateUser(user.id, userData, token);
+    onSave(userData);
     handleCloseModal();
   };
 
   const handleDelete = async () => {
-    if (!user.id) {
-      return;
-    }
-
-    const token = await getAccessTokenSilently();
-    await deleteUser(user.id, token);
+    onDelete();
     handleCloseModal();
   };
 
@@ -79,27 +63,11 @@ export default function EditUserModal({ user, onClose }: EditUserModalProps) {
               Edit User
             </Typography>
           </Box>
-          <Form>
-            <EditUserForm user={user} onSubmit={handleSave} />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-              <SubmitButton
-                disabled={!user.id}
-                type="submit"
-                variant="contained"
-                color="primary"
-              >
-                Save
-              </SubmitButton>
-              <DeleteButton
-                disabled={!user.id}
-                variant="contained"
-                color="secondary"
-                onClick={handleDelete}
-              >
-                Delete
-              </DeleteButton>
-            </Box>
-          </Form>
+          <EditUserForm
+            user={user}
+            onSubmit={handleSave}
+            onDelete={handleDelete}
+          />
         </Container>
       </Modal>
     </>

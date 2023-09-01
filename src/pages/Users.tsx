@@ -16,7 +16,12 @@ import {
 import { styled } from '@mui/material/styles';
 import { Label, Search as SearchIcon } from '@mui/icons-material';
 import { UserData } from '../types/UserProfile';
-import { createUser, getUsers } from '../services/UserService';
+import {
+  createUser,
+  deleteUser,
+  getUsers,
+  updateUser,
+} from '../services/UserServiceMock';
 import { useAuth0 } from '@auth0/auth0-react';
 import AddUserModal from '../components/AddUserModal';
 import EditUserModal from '../components/EditUserModal';
@@ -49,8 +54,31 @@ export default function UsersPage() {
 
   const handleAddUser = async (userData: UserData) => {
     const token = await getAccessTokenSilently();
-    const newUser = await createUser(userData, token);
-    setUsers([...users, newUser]);
+    await createUser(userData, token);
+    const users = await getUsers(token);
+    if (!users) {
+      throw new Error('No users found');
+    }
+    setUsers([...users]);
+  };
+
+  const handleDeleteUser = async (userId: number) => {
+    const token = await getAccessTokenSilently();
+    await deleteUser(userId, token);
+    setUsers(users.filter((user) => user.id !== userId)); // update the users state
+  };
+
+  const handleUpdateUser = async (userId: number, userData: UserData) => {
+    const token = await getAccessTokenSilently();
+    await updateUser(userId, userData, token);
+    setUsers(
+      users.map((user) => {
+        if (user.id === userId) {
+          return { ...user, ...userData };
+        }
+        return user;
+      })
+    );
   };
 
   useEffect(() => {
@@ -153,14 +181,21 @@ export default function UsersPage() {
           </TableHead>
           <TableBody>
             {sortedUsers.map((profile) => (
-              <TableRow key={profile.email}>
+              <TableRow key={profile.id}>
                 <TableCell>{profile.email}</TableCell>
                 <TableCell>{profile.name}</TableCell>
                 <TableCell>
                   {profile.lastLoggedIn?.toLocaleDateString('en-GB')}
                 </TableCell>
                 <TableCell>
-                  <EditUserModal user={profile} onClose={() => {}} />
+                  <EditUserModal
+                    user={profile}
+                    onClose={() => {}}
+                    onSave={(userData) =>
+                      handleUpdateUser(profile.id, userData)
+                    }
+                    onDelete={() => handleDeleteUser(profile.id)}
+                  />
                 </TableCell>
               </TableRow>
             ))}

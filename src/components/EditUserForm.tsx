@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, TextField } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { UserData } from '../types/UserProfile';
 
@@ -13,16 +13,29 @@ const Input = styled(TextField)(({ theme }) => ({
   marginBottom: theme.spacing(2),
 }));
 
-const SubmitButton = styled(Button)(({ theme }) => ({
-  marginTop: theme.spacing(2),
+const SubmitButton = styled(Button)(({ theme }) => ({}));
+
+const DeleteButton = styled(Button)(({ theme }) => ({
+  marginLeft: theme.spacing(2),
+}));
+
+const ButtonContainer = styled(Box)(({ theme }) => ({
+  display: 'flex',
+  justifyContent: 'flex-end',
+  alignItems: 'center',
 }));
 
 interface EditUserFormProps {
   user: UserData;
   onSubmit: (userData: UserData) => Promise<void>;
+  onDelete: () => Promise<void>;
 }
 
-export default function EditUserForm({ user, onSubmit }: EditUserFormProps) {
+export default function EditUserForm({
+  user,
+  onSubmit,
+  onDelete,
+}: EditUserFormProps) {
   const [email, setEmail] = useState(user.email);
   const [name, setName] = useState(user.name);
 
@@ -36,7 +49,11 @@ export default function EditUserForm({ user, onSubmit }: EditUserFormProps) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const userData = { email, name };
+    const userData: UserData = {
+      id: user.id,
+      email: email,
+      name: name,
+    };
     await onSubmit(userData);
     setEmail('');
     setName('');
@@ -60,6 +77,24 @@ export default function EditUserForm({ user, onSubmit }: EditUserFormProps) {
         onChange={handleNameChange}
         required
       />
+      <ButtonContainer>
+        <SubmitButton
+          disabled={!user.id}
+          type="submit"
+          variant="contained"
+          color="primary"
+        >
+          Save
+        </SubmitButton>
+        <DeleteButton
+          disabled={!user.id}
+          variant="contained"
+          color="secondary"
+          onClick={onDelete}
+        >
+          Delete
+        </DeleteButton>
+      </ButtonContainer>
     </Form>
   );
 }

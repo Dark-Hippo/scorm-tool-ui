@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useEffect, useState } from 'react';
-import { getUser } from '../services/UserService';
+import { getUser } from '../services/UserServiceMock';
 
 import type { UserData } from '../types/UserProfile';
 

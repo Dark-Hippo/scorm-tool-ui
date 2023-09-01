@@ -1,5 +1,5 @@
 interface UserData {
-  id?: string;
+  id: number;
   email: string;
   name: string;
   lastLoggedIn?: Date;

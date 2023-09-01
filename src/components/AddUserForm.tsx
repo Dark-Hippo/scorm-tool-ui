@@ -35,7 +35,11 @@ export default function AddUserForm({ onSubmit }: AddUserFormProps) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const userData = { email, name };
+    const userData: UserData = {
+      id: 0,
+      email: email,
+      name: name,
+    };
     await onSubmit(userData);
     setEmail('');
     setName('');
