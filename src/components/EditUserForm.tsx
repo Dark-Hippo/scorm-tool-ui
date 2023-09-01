@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, Button, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { UserData } from '../types/UserProfile';
@@ -38,6 +38,23 @@ export default function EditUserForm({
 }: EditUserFormProps) {
   const [email, setEmail] = useState(user.email);
   const [name, setName] = useState(user.name);
+  const [emailError, setEmailError] = useState('');
+  const [debouncedEmail, setDebouncedEmail] = useState(email);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      setDebouncedEmail(email);
+    }, 700);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [email]);
+
+  useEffect(() => {
+    const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    setEmailError(isValidEmail ? '' : 'Invalid email address');
+  }, [debouncedEmail]);
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
@@ -68,6 +85,8 @@ export default function EditUserForm({
         value={email}
         onChange={handleEmailChange}
         required
+        error={Boolean(emailError)}
+        helperText={emailError}
       />
       <Input
         label="Name"
