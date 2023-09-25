@@ -51,9 +51,13 @@ export default function EditUserForm({
     };
   }, [email]);
 
-  useEffect(() => {
+  const emailValidation = (email: string) => {
     const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     setEmailError(isValidEmail ? '' : 'Invalid email address');
+  };
+
+  useEffect(() => {
+    emailValidation(email);
   }, [debouncedEmail]);
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
