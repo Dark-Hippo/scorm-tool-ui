@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Typography, Container, Box, Modal } from '@mui/material';
 import { useAuth0 } from '@auth0/auth0-react';
 import { UserData } from '../types/UserProfile';
-import { updateUser, deleteUser } from '../services/UserServiceMock';
 import EditUserForm from '../components/EditUserForm';
 import { Edit } from '@mui/icons-material';
 
