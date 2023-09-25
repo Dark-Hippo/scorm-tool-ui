@@ -14,7 +14,7 @@ import {
   Box,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Label, Search as SearchIcon } from '@mui/icons-material';
+import { Search as SearchIcon } from '@mui/icons-material';
 import { UserData } from '../types/UserProfile';
 import {
   createUser,
