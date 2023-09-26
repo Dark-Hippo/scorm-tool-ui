@@ -21,7 +21,7 @@ import {
   deleteUser,
   getUsers,
   updateUser,
-} from '../services/UserServiceMock';
+} from '../services/UserService';
 import { useAuth0 } from '@auth0/auth0-react';
 import AddUserModal from '../components/AddUserModal';
 import EditUserModal from '../components/EditUserModal';
