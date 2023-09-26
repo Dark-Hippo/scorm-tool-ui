@@ -62,13 +62,22 @@ export default function UsersPage() {
     setUsers([...users]);
   };
 
-  const handleDeleteUser = async (userId: number) => {
+  const handleDeleteUser = async (userId: number | undefined) => {
+    if (!userId) {
+      throw new Error('No user id provided');
+    }
     const token = await getAccessTokenSilently();
     await deleteUser(userId, token);
     setUsers(users.filter((user) => user.id !== userId)); // update the users state
   };
 
-  const handleUpdateUser = async (userId: number, userData: UserData) => {
+  const handleUpdateUser = async (
+    userId: number | undefined,
+    userData: UserData
+  ) => {
+    if (!userId) {
+      throw new Error('No user id provided');
+    }
     const token = await getAccessTokenSilently();
     await updateUser(userId, userData, token);
     setUsers(
