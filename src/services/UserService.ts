@@ -74,7 +74,7 @@ export const updateUser = async (
   profileData: UserData,
   accessToken: string
 ): Promise<UserData> => {
-  const response = await fetch(`/api/profiles/${userId}`, {
+  const response = await fetch(`/api/users/${userId}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -98,7 +98,7 @@ export const deleteUser = async (
   userId: number,
   accessToken: string
 ): Promise<void> => {
-  const response = await fetch(`/api/profiles/${userId}`, {
+  const response = await fetch(`/api/users/${userId}`, {
     method: 'DELETE',
     headers: {
       Authorization: `Bearer ${accessToken}`,
