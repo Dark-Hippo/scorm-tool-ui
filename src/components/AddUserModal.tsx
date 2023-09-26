@@ -30,7 +30,6 @@ export default function AddUserModal({
 }: {
   onSubmit: (userData: UserData) => void;
 }) {
-  const { getAccessTokenSilently } = useAuth0();
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
