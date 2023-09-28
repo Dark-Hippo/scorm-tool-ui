@@ -1,5 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  TextField,
+} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { UserData } from '../types/UserProfile';
 
@@ -40,6 +46,7 @@ export default function EditUserForm({
   const [name, setName] = useState(user.name);
   const [emailError, setEmailError] = useState('');
   const [debouncedEmail, setDebouncedEmail] = useState(email);
+  const [active, setActive] = useState(user.active);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -68,12 +75,17 @@ export default function EditUserForm({
     setName(event.target.value);
   };
 
+  const handleActiveChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setActive(event.target.checked);
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const userData: UserData = {
       id: user.id,
       email: email,
       name: name,
+      active: active,
     };
     await onSubmit(userData);
     setEmail('');
@@ -100,9 +112,20 @@ export default function EditUserForm({
         onChange={handleNameChange}
         required
       />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={active}
+            onChange={handleActiveChange}
+            name="active"
+            color="primary"
+          />
+        }
+        label="Active"
+      />
       <ButtonContainer>
         <SubmitButton
-          disabled={!user.id}
+          disabled={!user.id || Boolean(emailError)}
           type="submit"
           variant="contained"
           color="primary"
