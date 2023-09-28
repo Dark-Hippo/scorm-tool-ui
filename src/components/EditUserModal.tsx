@@ -43,12 +43,12 @@ export default function EditUserModal({
   };
 
   const handleSave = async (userData: UserData) => {
-    onSave(userData);
+    await onSave(userData);
     handleCloseModal();
   };
 
   const handleDelete = async () => {
-    onDelete();
+    await onDelete();
     handleCloseModal();
   };
 
