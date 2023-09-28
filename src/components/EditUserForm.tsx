@@ -4,6 +4,10 @@ import {
   Button,
   Checkbox,
   CircularProgress,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   FormControlLabel,
   TextField,
 } from '@mui/material';
@@ -49,13 +53,14 @@ export default function EditUserForm({
   onSubmit,
   onDelete,
 }: EditUserFormProps) {
-  const [email, setEmail] = useState(user.email);
-  const [name, setName] = useState(user.name);
-  const [emailError, setEmailError] = useState('');
-  const [debouncedEmail, setDebouncedEmail] = useState(email);
-  const [active, setActive] = useState(user.active);
+  const [email, setEmail] = useState<string>(user.email);
+  const [name, setName] = useState<string>(user.name);
+  const [emailError, setEmailError] = useState<string>('');
+  const [debouncedEmail, setDebouncedEmail] = useState<string>(email);
+  const [active, setActive] = useState<boolean>(user.active);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -86,6 +91,33 @@ export default function EditUserForm({
 
   const handleActiveChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setActive(event.target.checked);
+  };
+
+  const handleDeleteClick = () => {
+    setConfirmDelete(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    setConfirmDelete(false);
+    setLoading(true);
+    setError('');
+    try {
+      await onDelete();
+      // setEmail('');
+      // setName('');
+      // setActive(false);
+    } catch (error) {
+      LogError({
+        message: error as string,
+        status: 0,
+      });
+      setError('Failed to delete user');
+    }
+    setLoading(false);
+  };
+
+  const handleDeleteCancel = () => {
+    setConfirmDelete(false);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -159,11 +191,25 @@ export default function EditUserForm({
           disabled={!user.id || loading}
           variant="contained"
           color="secondary"
-          onClick={onDelete}
+          onClick={handleDeleteClick}
         >
           Delete
         </DeleteButton>
       </ButtonContainer>
+      <Dialog open={confirmDelete} onClose={handleDeleteCancel}>
+        <DialogTitle>Confirm Delete</DialogTitle>
+        <DialogContent>
+          Are you sure you want to delete this user?
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDeleteCancel} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleDeleteConfirm} color="secondary">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Form>
   );
 }
