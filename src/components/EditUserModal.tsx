@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Typography, Container, Box, Modal } from '@mui/material';
-import { useAuth0 } from '@auth0/auth0-react';
 import { UserData } from '../types/UserProfile';
 import EditUserForm from '../components/EditUserForm';
 import { Edit } from '@mui/icons-material';
@@ -20,8 +19,8 @@ const style = {
 interface EditUserModalProps {
   user: UserData;
   onClose: () => void;
-  onSave: (userData: UserData) => void;
-  onDelete: () => void;
+  onSave: (userData: UserData) => Promise<void>;
+  onDelete: () => Promise<void>;
 }
 
 export default function EditUserModal({
@@ -30,7 +29,6 @@ export default function EditUserModal({
   onSave,
   onDelete,
 }: EditUserModalProps) {
-  const { getAccessTokenSilently } = useAuth0();
   const [modalOpen, setModalOpen] = useState(false);
 
   const handleOpenModal = () => {
