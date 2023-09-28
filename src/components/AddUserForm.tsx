@@ -38,6 +38,7 @@ export default function AddUserForm({ onSubmit }: AddUserFormProps) {
     const userData: UserData = {
       email: email,
       name: name,
+      active: true,
     };
     await onSubmit(userData);
     setEmail('');
