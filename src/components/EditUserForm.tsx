@@ -9,6 +9,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { UserData } from '../types/UserProfile';
+import { LogError } from '../services/ErrorService';
 
 const Form = styled('form')(({ theme }) => ({
   display: 'flex',
@@ -32,6 +33,11 @@ const ButtonContainer = styled(Box)(({ theme }) => ({
   alignItems: 'center',
 }));
 
+const ErrorMessage = styled('div')(({ theme }) => ({
+  color: theme.palette.error.main,
+  marginBottom: theme.spacing(2),
+}));
+
 interface EditUserFormProps {
   user: UserData;
   onSubmit: (userData: UserData) => Promise<void>;
@@ -48,7 +54,8 @@ export default function EditUserForm({
   const [emailError, setEmailError] = useState('');
   const [debouncedEmail, setDebouncedEmail] = useState(email);
   const [active, setActive] = useState(user.active);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -84,16 +91,26 @@ export default function EditUserForm({
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
+    setError('');
     const userData: UserData = {
       id: user.id,
       email: email,
       name: name,
       active: active,
     };
-    await onSubmit(userData);
-    setEmail('');
-    setName('');
-    setActive(true);
+    try {
+      await onSubmit(userData);
+      setEmail('');
+      setName('');
+      setActive(true);
+      // TODO: Improve this error handling with network error, save error, etc.
+    } catch (error) {
+      LogError({
+        message: error as string,
+        status: 0,
+      });
+      setError('Failed to save user');
+    }
     setLoading(false);
   };
 
@@ -128,6 +145,7 @@ export default function EditUserForm({
         }
         label="Active"
       />
+      {error && <ErrorMessage>{error}</ErrorMessage>}
       <ButtonContainer>
         <SubmitButton
           disabled={!user.id || Boolean(emailError) || loading}
