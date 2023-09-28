@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Checkbox,
+  CircularProgress,
   FormControlLabel,
   TextField,
 } from '@mui/material';
@@ -47,6 +48,7 @@ export default function EditUserForm({
   const [emailError, setEmailError] = useState('');
   const [debouncedEmail, setDebouncedEmail] = useState(email);
   const [active, setActive] = useState(user.active);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
@@ -81,6 +83,7 @@ export default function EditUserForm({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setLoading(true);
     const userData: UserData = {
       id: user.id,
       email: email,
@@ -90,6 +93,8 @@ export default function EditUserForm({
     await onSubmit(userData);
     setEmail('');
     setName('');
+    setActive(true);
+    setLoading(false);
   };
 
   return (
@@ -125,15 +130,15 @@ export default function EditUserForm({
       />
       <ButtonContainer>
         <SubmitButton
-          disabled={!user.id || Boolean(emailError)}
+          disabled={!user.id || Boolean(emailError) || loading}
           type="submit"
           variant="contained"
           color="primary"
         >
-          Save
+          {loading ? <CircularProgress size={24} /> : 'Save'}
         </SubmitButton>
         <DeleteButton
-          disabled={!user.id}
+          disabled={!user.id || loading}
           variant="contained"
           color="secondary"
           onClick={onDelete}
