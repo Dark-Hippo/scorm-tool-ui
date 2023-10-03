@@ -8,6 +8,8 @@ import { Site } from './pages/Site';
 import { AuthenticationGuard } from './components/AuthenticationGuard';
 import { HealthPage } from './pages/Health';
 import NotFound from './pages/404';
+import ProfilePage from './pages/Profile';
+import { UsersPage } from './pages/Users';
 
 function App() {
   return (
@@ -35,6 +37,14 @@ function App() {
             path="health"
             element={<AuthenticationGuard component={HealthPage} />}
           ></Route>
+          <Route
+            path="profile"
+            element={<AuthenticationGuard component={ProfilePage} />}
+          />
+          <Route
+            path="users"
+            element={<AuthenticationGuard component={UsersPage} />}
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
