@@ -27,9 +27,6 @@ export default function TopBar() {
                 <Button>
                   <NavLink to="/courses">Courses</NavLink>
                 </Button>
-                <Button>
-                  <NavLink to="/health">Health</NavLink>
-                </Button>
               </>
             )}
           </Box>

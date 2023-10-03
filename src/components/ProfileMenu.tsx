@@ -55,10 +55,10 @@ function ProfileMenu() {
         </NavLink>
         <NavLink
           onClick={handleMenuClose}
-          to={'/admin'}
+          to={'/health'}
           style={{ textDecoration: 'none', color: 'inherit' }}
         >
-          <MenuItem>Admin</MenuItem>
+          <MenuItem>Health</MenuItem>
         </NavLink>
         <Divider />
         <LogoutButton />
