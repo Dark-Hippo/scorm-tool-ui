@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Typography, Container, Box, Modal } from '@mui/material';
-import { UserData } from '../types/UserProfile';
+import { UserData } from '../types/UserData';
 import EditUserForm from '../components/EditUserForm';
 import { Edit } from '@mui/icons-material';
 

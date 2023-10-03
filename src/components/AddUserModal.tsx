@@ -3,7 +3,7 @@ import { Button, Box, Modal } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useAuth0 } from '@auth0/auth0-react';
 import AddUser from './AddUserForm';
-import { UserData } from '../types/UserProfile';
+import { UserData } from '../types/UserData';
 
 const Form = styled('form')(({ theme }) => ({
   display: 'flex',

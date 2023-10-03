@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { TextField, InputAdornment, IconButton, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Search as SearchIcon } from '@mui/icons-material';
-import { UserData } from '../types/UserProfile';
+import { UserData } from '../types/UserData';
 import {
   createUser,
   deleteUser,
@@ -92,8 +92,8 @@ export const UsersPage = () => {
     getUsersData();
   }, [getAccessTokenSilently]);
 
-  const filteredUsers = users.filter((profile) =>
-    profile.email.toLowerCase().includes(searchText.toLowerCase())
+  const filteredUsers = users.filter((user) =>
+    user.email.toLowerCase().includes(searchText.toLowerCase())
   );
 
   const sortedUsers = filteredUsers.sort((a, b) => {

@@ -1,6 +1,6 @@
 import { TableRow, TableCell } from '@mui/material';
 import EditUserModal from './EditUserModal';
-import { UserData } from '../types/UserProfile';
+import { UserData } from '../types/UserData';
 
 interface UsersTableRowProps {
   user: UserData;

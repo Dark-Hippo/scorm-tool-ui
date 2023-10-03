@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button, TextField } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { UserData } from '../types/UserProfile';
+import { UserData } from '../types/UserData';
 
 const Form = styled('form')(({ theme }) => ({
   display: 'flex',

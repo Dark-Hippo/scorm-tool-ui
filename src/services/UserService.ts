@@ -1,4 +1,4 @@
-import type { UserData } from '../types/UserProfile';
+import type { UserData } from '../types/UserData';
 import { LogError } from './ErrorService';
 
 export const createUser = async (

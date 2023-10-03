@@ -12,7 +12,7 @@ import {
   TextField,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { UserData } from '../types/UserProfile';
+import { UserData } from '../types/UserData';
 import { LogError } from '../services/ErrorService';
 
 const Form = styled('form')(({ theme }) => ({

@@ -9,7 +9,7 @@ import {
   TableBody,
 } from '@mui/material';
 import { UsersTableRow } from './UsersTableRow';
-import { UserData } from '../types/UserProfile';
+import { UserData } from '../types/UserData';
 
 interface UsersTableProps {
   sortField: keyof UserData;
