@@ -25,6 +25,7 @@ import {
 import { useAuth0 } from '@auth0/auth0-react';
 import AddUserModal from '../components/AddUserModal';
 import EditUserModal from '../components/EditUserModal';
+import { UsersTableRow } from '../components/UsersTableRow';
 
 const SearchTextField = styled(TextField)(({ theme }) => ({}));
 
@@ -189,24 +190,13 @@ export default function UsersPage() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sortedUsers.map((profile) => (
-              <TableRow key={profile.id}>
-                <TableCell>{profile.email}</TableCell>
-                <TableCell>{profile.name}</TableCell>
-                <TableCell>
-                  {profile.lastLoggedIn?.toLocaleDateString('en-GB')}
-                </TableCell>
-                <TableCell>
-                  <EditUserModal
-                    user={profile}
-                    onClose={() => {}}
-                    onSave={(userData) =>
-                      handleUpdateUser(profile.id, userData)
-                    }
-                    onDelete={() => handleDeleteUser(profile.id)}
-                  />
-                </TableCell>
-              </TableRow>
+            {sortedUsers.map((user) => (
+              <UsersTableRow
+                key={user.id}
+                user={user}
+                handleUpdateUser={handleUpdateUser}
+                handleDeleteUser={handleDeleteUser}
+              />
             ))}
           </TableBody>
         </Table>
