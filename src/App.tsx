@@ -9,7 +9,7 @@ import { AuthenticationGuard } from './components/AuthenticationGuard';
 import { HealthPage } from './pages/Health';
 import NotFound from './pages/404';
 import ProfilePage from './pages/Profile';
-import UsersPage from './pages/Users';
+import { UsersPage } from './pages/Users';
 
 function App() {
   return (
