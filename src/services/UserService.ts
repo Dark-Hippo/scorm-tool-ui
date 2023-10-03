@@ -48,6 +48,29 @@ export const getUser = async (
   return response.json();
 };
 
+export const getUserByEmail = async (
+  email: string,
+  accessToken: string
+): Promise<UserData | null> => {
+  const response = await fetch(`/api/users/email/${email}`, {
+    headers: {
+      'Content-Type': 'application/json',
+
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    LogError({
+      status: response.status,
+      message: response.statusText,
+    });
+    throw new Error('Failed to get profile');
+  }
+
+  return response.json();
+};
+
 export const getUsers = async (
   accessToken: string
 ): Promise<UserData[] | null> => {
