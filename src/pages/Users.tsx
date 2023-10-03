@@ -24,12 +24,11 @@ import {
 } from '../services/UserService';
 import { useAuth0 } from '@auth0/auth0-react';
 import AddUserModal from '../components/AddUserModal';
-import EditUserModal from '../components/EditUserModal';
 import { UsersTableRow } from '../components/UsersTableRow';
 
 const SearchTextField = styled(TextField)(({ theme }) => ({}));
 
-export default function UsersPage() {
+export const UsersPage = () => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState<UserData[]>([]);
   const [searchText, setSearchText] = useState('');
@@ -203,4 +202,4 @@ export default function UsersPage() {
       </TableContainer>
     </div>
   );
-}
+};
