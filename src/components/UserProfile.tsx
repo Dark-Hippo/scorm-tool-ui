@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import { useEffect, useState } from 'react';
-import { getUser } from '../services/UserServiceMock';
+import { getUser, getUserByEmail } from '../services/UserService';
 
 import type { UserData } from '../types/UserData';
 
@@ -18,7 +18,7 @@ export default function UserProfile() {
       if (!userEmail) {
         throw new Error('No email address found in ID token');
       }
-      const userProfileData = await getUser(userEmail, accessToken);
+      const userProfileData = await getUserByEmail(userEmail, accessToken);
       setUserData(userProfileData);
       setLoading(false);
     };
