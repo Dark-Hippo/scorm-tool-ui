@@ -1,18 +1,5 @@
 import { useState, useEffect } from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  TextField,
-  InputAdornment,
-  IconButton,
-  TableSortLabel,
-  Box,
-} from '@mui/material';
+import { TextField, InputAdornment, IconButton, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Search as SearchIcon } from '@mui/icons-material';
 import { UserData } from '../types/UserProfile';
@@ -24,7 +11,7 @@ import {
 } from '../services/UserService';
 import { useAuth0 } from '@auth0/auth0-react';
 import AddUserModal from '../components/AddUserModal';
-import { UsersTableRow } from '../components/UsersTableRow';
+import { UsersTable } from '../components/UsersTable';
 
 const SearchTextField = styled(TextField)(({ theme }) => ({}));
 
@@ -152,54 +139,14 @@ export const UsersPage = () => {
         />
         <AddUserModal onSubmit={handleAddUser} />
       </Box>
-      <TableContainer component={Paper}>
-        <Table aria-label="users table">
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <TableSortLabel
-                  active={sortField === 'email'}
-                  direction={sortDirection}
-                  onClick={() => handleSortClick('email')}
-                >
-                  Email
-                </TableSortLabel>
-              </TableCell>
-              <TableCell>
-                <TableSortLabel
-                  active={sortField === 'name'}
-                  direction={sortDirection}
-                  onClick={() => handleSortClick('name')}
-                >
-                  Name
-                </TableSortLabel>
-              </TableCell>
-              <TableCell>
-                <TableSortLabel
-                  active={sortField === 'lastLoggedIn'}
-                  direction={sortDirection}
-                  onClick={() => handleSortClick('lastLoggedIn')}
-                >
-                  Last Logged In
-                </TableSortLabel>
-              </TableCell>
-              <TableCell align="left" sx={{ fontWeight: 'bold' }}>
-                Edit
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sortedUsers.map((user) => (
-              <UsersTableRow
-                key={user.id}
-                user={user}
-                handleUpdateUser={handleUpdateUser}
-                handleDeleteUser={handleDeleteUser}
-              />
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <UsersTable
+        sortField={sortField}
+        sortDirection={sortDirection}
+        sortedUsers={sortedUsers}
+        handleSortClick={handleSortClick}
+        handleUpdateUser={handleUpdateUser}
+        handleDeleteUser={handleDeleteUser}
+      />
     </div>
   );
 };
