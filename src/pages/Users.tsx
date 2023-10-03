@@ -12,6 +12,7 @@ import {
 import { useAuth0 } from '@auth0/auth0-react';
 import AddUserModal from '../components/AddUserModal';
 import { UsersTable } from '../components/UsersTable';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const SearchTextField = styled(TextField)(({ theme }) => ({}));
 
@@ -139,14 +140,18 @@ export const UsersPage = () => {
         />
         <AddUserModal onSubmit={handleAddUser} />
       </Box>
-      <UsersTable
-        sortField={sortField}
-        sortDirection={sortDirection}
-        sortedUsers={sortedUsers}
-        handleSortClick={handleSortClick}
-        handleUpdateUser={handleUpdateUser}
-        handleDeleteUser={handleDeleteUser}
-      />
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <UsersTable
+          sortField={sortField}
+          sortDirection={sortDirection}
+          sortedUsers={sortedUsers}
+          handleSortClick={handleSortClick}
+          handleUpdateUser={handleUpdateUser}
+          handleDeleteUser={handleDeleteUser}
+        />
+      )}
     </div>
   );
 };
