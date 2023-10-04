@@ -1,12 +1,12 @@
 import { TableCell, TableRow } from '@mui/material';
 import { FileWithPath } from 'react-dropzone';
 import { StatusIndicator } from './StatusIndicator';
-import { FileUploadStatus } from '../types/FileWithStatus';
 import { useEffect, useState } from 'react';
 import { UploadScormFile } from '../services/ScormService';
-
-import type { CourseWithSite } from '../types/CourseWithSite';
 import { SiteLink } from './SiteLink';
+
+import { FileUploadStatus } from '../types/FileWithStatus';
+import type { Course } from '../types/Course';
 
 export const ValidFileRow = ({
   acceptedFile,
@@ -17,7 +17,7 @@ export const ValidFileRow = ({
     FileUploadStatus.InProgress
   );
 
-  const [course, setCourse] = useState<CourseWithSite>();
+  const [course, setCourse] = useState<Course>();
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -47,14 +47,12 @@ export const ValidFileRow = ({
           {error}
         </TableCell>
       )}
-      {status === FileUploadStatus.Complete && (
+      {status === FileUploadStatus.Complete && course && (
         <>
-          <TableCell align="left">{course?.name}</TableCell>
-          <TableCell align="left">{course?.language}</TableCell>
+          <TableCell align="left">{course.title}</TableCell>
+          <TableCell align="left">{course.language}</TableCell>
           <TableCell align="left">
-            {course?.site && (
-              <SiteLink id={course.site.id} guid={course.site.guid} />
-            )}
+            <SiteLink id={course.id} guid={course.guid} />
           </TableCell>
         </>
       )}
