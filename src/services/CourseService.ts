@@ -1,6 +1,4 @@
 import type { Course } from '../types/Course';
-import { Site } from '../types/Site';
-import { LogError } from './ErrorService';
 
 export const ListCourses = async (accessToken: string): Promise<Course[]> => {
   const response = await fetch(`/api/course`, {
