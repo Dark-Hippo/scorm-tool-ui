@@ -13,8 +13,7 @@ import {
 import { useState } from 'react';
 
 import './CourseEditModal.css';
-import { Course } from '../types/Course';
-import { CourseWithSite } from '../types/CourseWithSite';
+import type { Course } from '../types/Course';
 
 const style = {
   position: 'absolute' as 'absolute',
@@ -29,11 +28,11 @@ const style = {
 };
 
 export const CourseEditModal = ({
-  courseWithSite,
+  course,
   courseDeleteHandler,
 }: {
-  courseWithSite: CourseWithSite;
-  courseDeleteHandler: (course: CourseWithSite) => void;
+  course: Course;
+  courseDeleteHandler: (course: Course) => void;
 }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -53,7 +52,7 @@ export const CourseEditModal = ({
   const handleConfirmDeleteClick = () => {
     setConfirmOpen(false);
     setModalOpen(false);
-    courseDeleteHandler(courseWithSite);
+    courseDeleteHandler(course);
   };
 
   const handleConfirmCancelClick = () => {
@@ -65,7 +64,7 @@ export const CourseEditModal = ({
       <Edit className="button" onClick={handleOpenModal} />
       <Modal className="modal" open={modalOpen} onClose={handleCloseModal}>
         <Box sx={style}>
-          <h2>Editing course "{courseWithSite.name}"</h2>
+          <h2>Editing course "{course.title}"</h2>
           <Stack direction="row" justifyContent="space-evenly">
             <Button
               variant="contained"
@@ -87,9 +86,7 @@ export const CourseEditModal = ({
       <Dialog open={confirmOpen}>
         <DialogTitle>{'Delete course'}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Delete course "{courseWithSite.name}"
-          </DialogContentText>
+          <DialogContentText>Delete course "{course.title}"</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button

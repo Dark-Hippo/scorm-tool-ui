@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { ListCoursesWithSites } from '../services/CourseService';
+import { ListCourses } from '../services/CourseService';
 import { CourseList } from '../components/CourseList';
 
-import type { CourseWithSite } from '../types/CourseWithSite';
 import { useAuth0 } from '@auth0/auth0-react';
+import type { Course } from '../types/Course';
 
 export const Courses = () => {
   const [loading, setLoading] = useState(false);
-  const [courses, setCourses] = useState<CourseWithSite[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
 
   const { getAccessTokenSilently } = useAuth0();
 
@@ -16,7 +16,7 @@ export const Courses = () => {
   useEffect(() => {
     const getCourses = async () => {
       const accessToken = await getAccessTokenSilently();
-      const courses = await ListCoursesWithSites(accessToken);
+      const courses = await ListCourses(accessToken);
       if (courses) {
         setCourses(courses);
       }

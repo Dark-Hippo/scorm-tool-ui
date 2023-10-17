@@ -7,32 +7,32 @@ import {
   TableRow,
 } from '@mui/material';
 
-import type { CourseWithSite } from '../types/CourseWithSite';
-
 import './CourseList.css';
 import { Link } from 'react-router-dom';
 import { API_URL } from '../config';
 import { CourseEditModal } from './CourseEditModal';
-import { DeleteCourseWithSite } from '../services/CourseService';
+import { DeleteCourse } from '../services/CourseService';
 import { useState } from 'react';
 import { SiteLink } from './SiteLink';
 import { useAuth0 } from '@auth0/auth0-react';
 
-export const CourseList = ({ data }: { data: CourseWithSite[] }) => {
+import type { Course } from '../types/Course';
+
+export const CourseList = ({ data }: { data: Course[] }) => {
   if (data.length === 0) {
     return null;
   }
 
   const { getAccessTokenSilently } = useAuth0();
 
-  const [courses, setCourses] = useState<CourseWithSite[]>(data);
+  const [courses, setCourses] = useState<Course[]>(data);
 
-  const handleCourseDelete = async (courseWithSite: CourseWithSite) => {
+  const handleCourseDelete = async (course: Course) => {
     const accessToken = await getAccessTokenSilently();
-    const deleted = await DeleteCourseWithSite(courseWithSite, accessToken);
+    const deleted = await DeleteCourse(course, accessToken);
     if (deleted) {
       const updatedCourses = courses.filter(
-        (course) => course.id !== courseWithSite.id
+        (course) => course.id !== course.id
       );
       setCourses(updatedCourses);
     }
@@ -55,39 +55,32 @@ export const CourseList = ({ data }: { data: CourseWithSite[] }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {courses.map((courseWithSite: CourseWithSite) => (
+            {courses.map((course: Course) => (
               <TableRow
-                key={courseWithSite.id}
+                key={course.id}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <TableCell align="left">{courseWithSite.name}</TableCell>
-                <TableCell align="left">{courseWithSite.language}</TableCell>
+                <TableCell align="left">{course.title}</TableCell>
+                <TableCell align="left">{course.language}</TableCell>
                 <TableCell align="left">
-                  {courseWithSite.site && (
-                    <SiteLink
-                      id={courseWithSite.site?.id}
-                      guid={courseWithSite.site?.guid}
-                    />
-                  )}
+                  <SiteLink id={course.id} guid={course.guid} />
                 </TableCell>
                 <TableCell>
                   <Link
-                    to={`${API_URL}/site/${courseWithSite.site?.id}/${courseWithSite.site?.guid}/original/`}
+                    to={`${API_URL}/site/${course.id}/${course.guid}/original/`}
                   >
                     Download original
                   </Link>
                 </TableCell>
-                <TableCell align="left">{courseWithSite.site?.title}</TableCell>
+                <TableCell align="left">{course.filename}</TableCell>
                 <TableCell align="left">
-                  {courseWithSite.site?.lastAccessed
-                    ? new Date(
-                        courseWithSite.site?.lastAccessed
-                      ).toLocaleDateString('en-GB')
+                  {course.lastAccessed
+                    ? new Date(course.lastAccessed).toLocaleDateString('en-GB')
                     : null}
                 </TableCell>
                 <TableCell align="left">
                   <CourseEditModal
-                    courseWithSite={courseWithSite}
+                    course={course}
                     courseDeleteHandler={handleCourseDelete}
                   />
                 </TableCell>
