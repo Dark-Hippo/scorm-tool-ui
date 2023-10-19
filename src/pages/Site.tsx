@@ -18,15 +18,33 @@ export const Site = () => {
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
+  const ignoredTags = ['HTML', 'HEAD', 'BODY', 'SCRIPT', 'STYLE', 'LINK'];
+
+  const preventDefaultListener = (ev: MouseEvent) => {
+    ev.preventDefault();
+    ev.stopPropagation();
+  };
+
   const addOutline = (ev: MouseEvent) => {
     const element = ev.currentTarget as HTMLElement;
     if (!element || !element.style) {
       return;
     }
+
+    if (ignoredTags.includes(element.tagName)) {
+      return;
+    }
+
+    if (element.style.outline) {
+      return;
+    }
+
+    element.addEventListener('click', preventDefaultListener);
+
     element.style.outlineColor = '#ff0000';
     element.style.outlineStyle = 'solid';
     element.style.outlineWidth = '1px';
-    // element.style.outline = '1px solid #ff0000';
+    element.style.cursor = 'crosshair';
   };
 
   const removeOutline = (ev: MouseEvent) => {
@@ -34,12 +52,11 @@ export const Site = () => {
     if (!element || !element.style || !element.style.outline) {
       return;
     }
-    element.style.outline = 'unset';
-  };
 
-  const addHoverHighlight = (element: HTMLElement) => {
-    element.addEventListener('mouseenter', addOutline);
-    element.addEventListener('mouseleave', removeOutline);
+    element.removeEventListener('click', preventDefaultListener);
+
+    element.style.removeProperty('outline');
+    element.style.removeProperty('cursor');
   };
 
   useEffect(() => {
@@ -59,7 +76,8 @@ export const Site = () => {
     if (editing) {
       childElements.forEach((element) => {
         const el = element as HTMLElement;
-        addHoverHighlight(el);
+        el.addEventListener('mouseenter', addOutline);
+        el.addEventListener('mouseleave', removeOutline);
       });
     } else {
       childElements.forEach((element) => {
@@ -96,6 +114,7 @@ export const Site = () => {
         width="100%"
         height="100%"
         style={{ border: 'none' }}
+        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
       />
     </div>
   );
