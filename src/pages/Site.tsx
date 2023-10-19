@@ -49,7 +49,7 @@ export const Site = () => {
 
   const removeOutline = (ev: MouseEvent) => {
     const element = ev.currentTarget as HTMLElement;
-    if (!element || !element.style || !element.style.outline) {
+    if (!element || !element.style) {
       return;
     }
 
@@ -84,7 +84,6 @@ export const Site = () => {
         const el = element as HTMLElement;
         el.removeEventListener('mouseenter', addOutline);
         el.removeEventListener('mouseleave', removeOutline);
-        el.style.outline = 'unset';
       });
     }
 
