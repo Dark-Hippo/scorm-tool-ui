@@ -7,7 +7,7 @@ import {
   IconButton,
   TextField,
 } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Close } from '@mui/icons-material';
 import { LogError } from '../services/ErrorService';
 
 interface Props {
@@ -41,7 +41,9 @@ export default function CommentBox({ open, onClose, onSubmit }: Props) {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle sx={{ m: 0, p: 2 }}>Add Comment</DialogTitle>
+      <DialogTitle sx={{ m: 0, p: 2, paddingBottom: 0 }}>
+        Add Comment
+      </DialogTitle>
       <IconButton
         aria-label="close"
         onClick={handleClose}
@@ -51,7 +53,7 @@ export default function CommentBox({ open, onClose, onSubmit }: Props) {
           top: 8,
         }}
       >
-        <CloseIcon />
+        <Close />
       </IconButton>
       <DialogContent>
         <TextField
@@ -62,6 +64,7 @@ export default function CommentBox({ open, onClose, onSubmit }: Props) {
           multiline
           rows={4}
           variant="outlined"
+          sx={{ marginBottom: 2 }}
         />
         <Button variant="contained" color="primary" onClick={handleSubmit}>
           Submit

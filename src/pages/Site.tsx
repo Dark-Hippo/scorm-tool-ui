@@ -3,7 +3,7 @@ import { Box, Button } from '@mui/material';
 import { useRef, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { LogError } from '../services/ErrorService';
-// import CommentBox from '../components/CommentBox';
+import CommentBox from '../components/CommentBox';
 
 export const Site = () => {
   const { id, guid } = useParams();
@@ -126,13 +126,15 @@ export const Site = () => {
         style={{ border: 'none' }}
         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
       />
-      {/* <CommentBox
+      <CommentBox
         open={commentBoxOpen}
-        onClose={() => {}}
+        onClose={() => {
+          setCommentBoxOpen(false);
+        }}
         onSubmit={() => {
           console.log('saved');
         }}
-      /> */}
+      />
     </div>
   );
 };
