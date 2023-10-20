@@ -3,10 +3,12 @@ import { Box, Button } from '@mui/material';
 import { useRef, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { LogError } from '../services/ErrorService';
+// import CommentBox from '../components/CommentBox';
 
 export const Site = () => {
   const { id, guid } = useParams();
   const [editing, setEditing] = useState(false);
+  const [commentBoxOpen, setCommentBoxOpen] = useState(false);
 
   if (!id) {
     return null;
@@ -20,12 +22,21 @@ export const Site = () => {
 
   const ignoredTags = ['HTML', 'HEAD', 'BODY', 'SCRIPT', 'STYLE', 'LINK'];
 
-  const preventDefaultListener = (ev: MouseEvent) => {
+  const clickHandler = (ev: MouseEvent) => {
+    const element = ev.currentTarget as HTMLElement;
+    const position = element.getBoundingClientRect();
+    const x = ev.clientX - position.left;
+    const y = ev.clientY - position.top;
+
+    console.log(position);
+
+    setCommentBoxOpen(true);
+
     ev.preventDefault();
     ev.stopPropagation();
   };
 
-  const addOutline = (ev: MouseEvent) => {
+  const mouseEnterHandler = (ev: MouseEvent) => {
     const element = ev.currentTarget as HTMLElement;
     if (!element || !element.style) {
       return;
@@ -39,7 +50,7 @@ export const Site = () => {
       return;
     }
 
-    element.addEventListener('click', preventDefaultListener);
+    element.addEventListener('click', clickHandler);
 
     element.style.outlineColor = '#ff0000';
     element.style.outlineStyle = 'solid';
@@ -47,13 +58,13 @@ export const Site = () => {
     element.style.cursor = 'crosshair';
   };
 
-  const removeOutline = (ev: MouseEvent) => {
+  const mouseLeaveHandler = (ev: MouseEvent) => {
     const element = ev.currentTarget as HTMLElement;
     if (!element || !element.style) {
       return;
     }
 
-    element.removeEventListener('click', preventDefaultListener);
+    element.removeEventListener('click', clickHandler);
 
     element.style.removeProperty('outline');
     element.style.removeProperty('cursor');
@@ -76,22 +87,22 @@ export const Site = () => {
     if (editing) {
       childElements.forEach((element) => {
         const el = element as HTMLElement;
-        el.addEventListener('mouseenter', addOutline);
-        el.addEventListener('mouseleave', removeOutline);
+        el.addEventListener('mouseenter', mouseEnterHandler);
+        el.addEventListener('mouseleave', mouseLeaveHandler);
       });
     } else {
       childElements.forEach((element) => {
         const el = element as HTMLElement;
-        el.removeEventListener('mouseenter', addOutline);
-        el.removeEventListener('mouseleave', removeOutline);
+        el.removeEventListener('mouseenter', mouseEnterHandler);
+        el.removeEventListener('mouseleave', mouseLeaveHandler);
       });
     }
 
     return () => {
       childElements.forEach((element) => {
         const el = element as HTMLElement;
-        el.removeEventListener('mouseenter', addOutline);
-        el.removeEventListener('mouseleave', removeOutline);
+        el.removeEventListener('mouseenter', mouseEnterHandler);
+        el.removeEventListener('mouseleave', mouseLeaveHandler);
       });
     };
   }, [editing]);
@@ -115,6 +126,13 @@ export const Site = () => {
         style={{ border: 'none' }}
         sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
       />
+      {/* <CommentBox
+        open={commentBoxOpen}
+        onClose={() => {}}
+        onSubmit={() => {
+          console.log('saved');
+        }}
+      /> */}
     </div>
   );
 };
