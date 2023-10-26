@@ -12,11 +12,17 @@ import { LogError } from '../services/ErrorService';
 
 interface Props {
   open: boolean;
+  element: HTMLElement | null;
   onClose: () => void;
-  onSubmit: (comment: string) => void;
+  onSubmit: (element: HTMLElement, comment: string) => void;
 }
 
-export default function CommentBox({ open, onClose, onSubmit }: Props) {
+export default function CommentBox({
+  open,
+  element,
+  onClose,
+  onSubmit,
+}: Props) {
   const [comment, setComment] = useState('');
 
   const handleCommentChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,7 +40,12 @@ export default function CommentBox({ open, onClose, onSubmit }: Props) {
       return;
     }
 
-    onSubmit(comment);
+    if (!element) {
+      LogError({ status: 0, message: 'Element not selected.' });
+      return;
+    }
+
+    onSubmit(element, comment);
     setComment('');
     onClose();
   };
